@@ -24,6 +24,7 @@
             </fg-input>
 
             <template slot="raw-content">
+              <LoginNaverButton />
               <div class="card-footer text-center">
                 <a href="#pablo" class="btn btn-info btn-round btn-lg btn-block"
                   >로그인</a
@@ -44,18 +45,17 @@
         </div>
       </div>
     </div>
-    <main-footer></main-footer>
   </div>
 </template>
 <script>
 import { Card, Button, FormGroupInput } from "@/components";
-import MainFooter from "@/layout/MainFooter";
+import LoginNaverButton from "./components/user/LoginNaverButton.vue";
 export default {
   name: "login-page",
   bodyClass: "login-page",
   components: {
     Card,
-    MainFooter,
+    LoginNaverButton,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
   },
