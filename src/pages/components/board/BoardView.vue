@@ -8,29 +8,44 @@
             <p><b>글 상세 정보</b></p>
           </div>
         </div>
-    <b-row class="mb-1">
-      <b-col class="text-left">
-        <b-button @click="moveList" size="sm" class="btn-neutral text-info">목록으로 돌아가기</b-button>
-      </b-col>
-      <b-col class="text-right">
-        <b-button @click="moveModifyArticle" size="sm" class="btn-neutral text-info">글수정</b-button>
-        <b-button @click="deleteArticle" size="sm" class="btn-neutral text-info">글삭제</b-button>
-      </b-col>
-    </b-row>
-    <b-row >
-      <b-col>
-        <b-card class="clear-filter text-left " filter-color="blue" 
-        :header-html="`<h3>${article.articleno}.${article.subject}
+        <b-row class="mb-1">
+          <b-col class="text-left">
+            <b-button @click="moveList" size="sm" class="btn-neutral text-info"
+              >목록으로 돌아가기</b-button
+            >
+          </b-col>
+          <b-col class="text-right">
+            <b-button
+              @click="moveModifyArticle"
+              size="sm"
+              class="btn-neutral text-info"
+              >글수정</b-button
+            >
+            <b-button
+              @click="deleteArticle"
+              size="sm"
+              class="btn-neutral text-info"
+              >글삭제</b-button
+            >
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-card
+              class="clear-filter text-left"
+              filter-color="blue"
+              :header-html="`<h3>${article.articleno}.${article.subject}
             [${article.hit}]</h3><div><h6>${article.userid}</div><div>${article.regtime}</h6></div>`"
-          border-variant="dark"
-          no-body>
-          <b-card-body class="text-left">
-            <div v-html="message"></div>
-          </b-card-body>
-        </b-card>
-      </b-col>
-    </b-row>
-  </b-container>
+              border-variant="dark"
+              no-body
+            >
+              <b-card-body class="text-left">
+                <div v-html="message"></div>
+              </b-card-body>
+            </b-card>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
   </div>
 </template>
@@ -43,17 +58,23 @@ export default {
   name: "BoardDetail",
   data() {
     return {
-      article: {},
+      article: {
+        articleno: "1",
+        subject: "제목",
+        userid: "정상기",
+        regtime: "11.11.11",
+        hit: "1",
+      },
     };
   },
   computed: {
     message() {
-      if (this.article.content) return this.article.content.split("\n").join("<br>");
+      if (this.article.content)
+        return this.article.content.split("\n").join("<br>");
       return "";
     },
   },
   created() {
-
     http.get(`/board/view/${this.$route.params.articleno}`).then(({ data }) => {
       this.article = data;
     });

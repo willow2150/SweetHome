@@ -3,12 +3,8 @@
 </template>
 
 <script>
-
 export default {
-name: "Board",
-created() {
-  this.$router.push({ name: "boardlist" });  
-},
+  name: "Board",
 };
 </script>
 

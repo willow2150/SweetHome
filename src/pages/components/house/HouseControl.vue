@@ -34,6 +34,9 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 import { FormGroupInput } from "@/components";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseControl",
   bodyClass: "housecontrol-page",
@@ -48,10 +51,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "dongs", "houses"]),
-    sidos() {
-      return this.$store.state.sidos;
-    },
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    // sidos() {
+    //   return this.$store.state.sidos;
+    // },
   },
   created() {
     // this.$store.dispatch("getSido");
@@ -61,8 +64,13 @@ export default {
     this.getSido();
   },
   methods: {
-    ...mapActions(["getSido", "getGugun", "getDong", "getHouseList"]),
-    ...mapMutations([
+    ...mapActions(houseStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+    ]),
+    ...mapMutations(houseStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",

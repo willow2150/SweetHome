@@ -86,6 +86,7 @@ export default new Router({
       path: "/board",
       name: "board",
       components: { default: Board, header: MainNavbar, footer: MainFooter },
+      redirect: "/board/list",
       props: {
         header: { colorOnScroll: 400 },
       },
@@ -122,6 +123,7 @@ export default new Router({
       path: "/notice",
       name: "notice",
       components: { default: Notice, header: MainNavbar, footer: MainFooter },
+      redirect: "/notice/list",
       props: {
         header: { colorOnScroll: 400 },
       },
