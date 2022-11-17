@@ -2,28 +2,28 @@
   <div>
     <nav>
       <b-row class="mb-3" style="">
-        <b-col class="sm-3 pt-2">
+        <b-col class="sm-3 pt-3">
           <b-form-select
             v-model="sidoCode"
             :options="sidos"
             @change="gugunList"
           ></b-form-select>
         </b-col>
-        <b-col class="sm-3 pt-2">
+        <b-col class="sm-3 pt-3">
           <b-form-select
             v-model="gugunCode"
             :options="guguns"
             @change="dongList"
           ></b-form-select>
         </b-col>
-        <b-col class="sm-3 pt-2">
+        <b-col class="sm-3 pt-3">
           <b-form-select v-model="dongCode" :options="dongs"></b-form-select>
         </b-col>
-        <b-col class="sm-3">
-          <b-form-input placeholder="아파트 이름을 입력하세요"></b-form-input>
+        <b-col class="sm-3 pt-3 px-0">
+          <fg-input placeholder="아파트 이름을 입력하세요"></fg-input>
         </b-col>
-        <b-col class="sm-3">
-          <button class="btn btn-info" style="font-weight: bold">
+        <b-col cols="2" class="px-0">
+          <button class="btn btn-info btn-lg" style="font-weight: bold">
             아파트 조회
           </button>
         </b-col>
@@ -33,10 +33,13 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { FormGroupInput } from "@/components";
 export default {
   name: "HouseControl",
   bodyClass: "housecontrol-page",
-  components: {},
+  components: {
+    [FormGroupInput.name]: FormGroupInput,
+  },
   data() {
     return {
       sidoCode: null,

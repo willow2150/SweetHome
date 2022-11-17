@@ -4,7 +4,7 @@ import axios from "axios";
 // import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
-
+// API 사용법: https://juso.dev/docs/reg-code-api/
 export default new Vuex.Store({
   state: {
     sidos: [{ value: null, text: "선택하세요" }],
