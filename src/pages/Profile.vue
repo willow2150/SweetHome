@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="blue">
-      <parallax class="page-header-image" style="background-image: url('')">
-      </parallax>
+      <parallax class="page-header-image"> </parallax>
       <div class="container">
         <div class="photo-container">
           <img src="" alt="" />
@@ -24,7 +23,7 @@
     <div class="section">
       <div class="container">
         <div class="button-container">
-          <router-link to="profilemodify">
+          <router-link to="/profilemodify">
             <div class="btn btn-info btn-round btn-lg">회원 정보 수정</div>
           </router-link>
         </div>

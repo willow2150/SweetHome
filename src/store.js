@@ -38,12 +38,16 @@ export default new Vuex.Store({
     },
     SET_GUGUN_LIST(state, guguns) {
       guguns.forEach((gugun) => {
-        state.guguns.push({ value: gugun.code, text: gugun.name });
+        const temp = gugun.name.split(" ");
+        const value = temp[1];
+        state.guguns.push({ value: gugun.code, text: value });
       });
     },
     SET_DONG_LIST(state, dongs) {
       dongs.forEach((dong) => {
-        state.dongs.push({ value: dong.code, text: dong.name });
+        const temp = dong.name.split(" ");
+        const value = temp[2];
+        state.dongs.push({ value: dong.code, text: value });
       });
     },
     CLEAR_SIDO_LIST(state) {
@@ -105,7 +109,6 @@ export default new Vuex.Store({
           `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=${params}*&is_ignore_zero=true`
         )
         .then(({ data }) => {
-          console.log(data.regcodes);
           commit("SET_DONG_LIST", data.regcodes);
         })
         .catch((error) => {

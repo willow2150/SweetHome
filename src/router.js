@@ -4,11 +4,10 @@ import Index from "./pages/Index.vue";
 import HouseDeal from "./pages/HouseDeal.vue";
 import Login from "./pages/Login.vue";
 import Profile from "./pages/Profile.vue";
-// import ProfileModify from "./pages/ProfileModify.vue";
 import Board from "./pages/Board.vue";
 import Notice from "./pages/Notice.vue";
 // import Join from "./pages/Join.vue";
-import Modify from "./pages/Modify.vue";
+import Modify from "./pages/components/user/Modify.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 

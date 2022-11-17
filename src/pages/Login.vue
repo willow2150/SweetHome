@@ -30,13 +30,13 @@
                 >
               </div>
               <div class="pull-left">
-                <h6>
-                  <a href="#pablo" class="link footer-link">회원가입</a>
-                </h6>
+                <router-link to="/register">
+                  <a href="#pablo" class="link footer-link h5">회원가입</a>
+                </router-link>
               </div>
               <div class="pull-right">
                 <h6>
-                  <a href="#pablo" class="link footer-link">비밀번호 찾기</a>
+                  <a href="#pablo" class="link footer-link h5">비밀번호 찾기</a>
                 </h6>
               </div>
             </template>
