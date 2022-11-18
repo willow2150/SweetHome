@@ -8,26 +8,29 @@
     <!-- Classic Modal -->
     <modal :show.sync="modals.classic" id="modal">
       <h5 slot="header" class="title title-up">1</h5>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
-      <h1 style="color: black">아파트 리스트</h1>
+      <div v-if="houses && houses.length != 0">
+        <HouseListItem v-for="(house, i) in houses" :key="i" :house="house" />
+      </div>
+      <div v-else>
+        <h3 style="color: black">해당 지역에 매물이 없습니다ㅜㅜ</h3>
+      </div>
     </modal>
   </div>
 </template>
 
 <script>
 import { Button, Modal } from "@/components";
+import HouseListItem from "./HouseListItem.vue";
+import { mapState } from "vuex";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseList",
   components: {
     [Button.name]: Button,
     Modal,
+    HouseListItem,
   },
   data() {
     return {
@@ -36,6 +39,12 @@ export default {
         mini: false,
       },
     };
+  },
+  computed: {
+    ...mapState(houseStore, ["houses"]),
+    // houses() {
+    //   return this.$store.state.houses;
+    // },
   },
 };
 </script>

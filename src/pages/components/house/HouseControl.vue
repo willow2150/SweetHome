@@ -23,7 +23,11 @@
           <fg-input placeholder="아파트 이름을 입력하세요"></fg-input>
         </b-col>
         <b-col cols="2" class="px-0">
-          <button class="btn btn-info btn-lg" style="font-weight: bold">
+          <button
+            class="btn btn-info btn-lg"
+            style="font-weight: bold"
+            @click="searchApt"
+          >
             아파트 조회
           </button>
         </b-col>
@@ -84,6 +88,7 @@ export default {
       // console.log(this.guguns);
       this.CLEAR_GUGUN_LIST();
       this.CLEAR_DONG_LIST();
+      this.CLEAR_APT_LIST();
       this.gugunCode = null;
       this.dongCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
@@ -91,11 +96,12 @@ export default {
     dongList() {
       // console.log(this.guguns);
       this.CLEAR_DONG_LIST();
+      this.CLEAR_APT_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      if (this.gugunCode) this.getHouseList(this.gugunCode);
+      if (this.gugunCode) this.getHouseList(this.gugunCode.slice(0, 5));
     },
   },
 };

@@ -29,11 +29,6 @@ export default {
   },
   data() {
     return {
-      form: {
-        firstName: "",
-        email: "",
-        message: "",
-      },
     };
   },
 };
