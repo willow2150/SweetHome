@@ -5,18 +5,17 @@
         <div class="content-center brand">
           <h1 class="h1-seo">Find Your Dream House</h1>
           <h3>여러분의 집을 찾아보세요</h3>
+          <!-- <h5 class="category category-absolute">Designed by 정상기 박귀렬</h5> -->
         </div>
-        <h5 class="category category-absolute">Designed by 정상기 박귀렬</h5>
+        <footer class="d-flex justify-content-between mb-3">
+          <div class="col-6"><h4>Notice</h4></div>
+          <div class="col-6">
+            <NewsSel />
+          </div>
+        </footer>
       </div>
     </div>
-    <div class="main">
-      <div class="section section-images">
-        <div class="container d-flex justify-content-between">
-          <div class="left">공지사항</div>
-          <div class="right">뉴스 크롤링</div>
-        </div>
-      </div>
-    </div>
+
     <basic-elements></basic-elements>
     <navigation></navigation>
     <tabs-section></tabs-section>
@@ -59,6 +58,7 @@ import NucleoIconsSection from "./components/NucleoIconsSection";
 import SignupForm from "./components/SignupForm";
 import ExamplesSection from "./components/ExamplesSection";
 import DownloadSection from "./components/DownloadSection";
+import NewsSel from "../pages/components/news/NewsSel";
 
 export default {
   name: "index",
@@ -76,6 +76,7 @@ export default {
     SignupForm,
     ExamplesSection,
     DownloadSection,
+    NewsSel,
   },
 };
 </script>

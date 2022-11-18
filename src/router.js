@@ -21,15 +21,14 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
+      components: { default: Index, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
       },
     },
     {
-      path: "/landing",
-      name: "landing",
+      path: "/housedeal",
+      name: "housedeal",
       components: {
         default: HouseDeal,
         header: MainNavbar,

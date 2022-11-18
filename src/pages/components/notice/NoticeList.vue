@@ -3,17 +3,30 @@
     <div class="page-header clear-filter" filter-color="blue">
       <b-container class="bv-example-row mt-3">
         <div class="d-flex justify-content-between">
-          <div class="row" style="font-size: 2rem">
+          <div class="d-flex align-items-center" style="font-size: 2rem">
             <b-icon icon="bell-fill"></b-icon>
-            <p><b>Notice</b></p>
+            <span> Notice</span>
           </div>
-          <b-button @click="moveWrite" class="btn-neutral text-info">공지사항 작성하기</b-button>
+          <b-button @click="moveWrite" class="btn-neutral text-info"
+            >공지사항 작성하기</b-button
+          >
         </div>
         <b-row>
           <b-col>
-            <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
+            <b-table
+              striped
+              hover
+              :items="articles"
+              :fields="fields"
+              @row-clicked="viewArticle"
+            >
               <template #cell(subject)="data">
-                <router-link :to="{ name: 'noticeview', params: { articleno: data.item.articleno } }">
+                <router-link
+                  :to="{
+                    name: 'noticeview',
+                    params: { articleno: data.item.articleno },
+                  }"
+                >
                   {{ data.item.subject }}
                 </router-link>
               </template>

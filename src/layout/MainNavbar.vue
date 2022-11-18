@@ -40,7 +40,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="" target="/">
-          <router-link to="/landing">
+          <router-link to="/housedeal">
             <p>아파트 매물 조회</p>
           </router-link>
         </a>

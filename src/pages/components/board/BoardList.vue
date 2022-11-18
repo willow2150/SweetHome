@@ -3,9 +3,9 @@
     <div class="page-header clear-filter" filter-color="blue">
       <b-container class="bv-example-row mt-3">
         <div class="d-flex justify-content-between">
-          <div class="row" style="font-size: 2rem">
+          <div class="d-flex align-items-center" style="font-size: 2rem">
             <b-icon icon="journals"></b-icon>
-            <p><b>Board</b></p>
+            <span> Q&A</span>
           </div>
           <b-button @click="moveWrite" class="btn-neutral text-info"
             >글쓰기</b-button
@@ -48,7 +48,21 @@ export default {
       articles: [
         {
           articleno: "1",
-          subject: "제목",
+          subject: "안녕",
+          userid: "정상기",
+          regtime: "11.11.11",
+          hit: "1",
+        },
+        {
+          articleno: "2",
+          subject: "나는",
+          userid: "정상기",
+          regtime: "11.11.11",
+          hit: "1",
+        },
+        {
+          articleno: "3",
+          subject: "누구",
           userid: "정상기",
           regtime: "11.11.11",
           hit: "1",

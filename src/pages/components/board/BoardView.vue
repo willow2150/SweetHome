@@ -11,7 +11,7 @@
         <b-row class="mb-1">
           <b-col class="text-left">
             <b-button @click="moveList" size="sm" class="btn-neutral text-info"
-              >목록으로 돌아가기</b-button
+              >목록으로</b-button
             >
           </b-col>
           <b-col class="text-right">

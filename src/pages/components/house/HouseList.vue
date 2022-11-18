@@ -3,6 +3,7 @@
     <div class="" id="modals">
       <n-button type="info" @click.native="modals.classic = true">
         <i class="now-ui-icons text_align-left"></i>
+        아파트 목록 펼치기
       </n-button>
     </div>
     <!-- Classic Modal -->

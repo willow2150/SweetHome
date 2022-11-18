@@ -28,8 +28,7 @@ export default {
     HouseList,
   },
   data() {
-    return {
-    };
+    return {};
   },
 };
 </script>

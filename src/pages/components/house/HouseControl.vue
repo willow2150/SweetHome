@@ -80,7 +80,6 @@ export default {
       "CLEAR_DONG_LIST",
       "CLEAR_APT_LIST",
     ]),
-    // https://juso.dev/docs/about/
     sidoList() {
       this.getSido();
     },

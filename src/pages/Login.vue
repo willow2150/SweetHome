@@ -28,12 +28,8 @@
                 <div class="col">
                   <LoginNaverButton />
                 </div>
-                <div class="col">
-                  <LoginNaverButton />
-                </div>
-                <div class="col">
-                  <LoginNaverButton />
-                </div>
+                <div class="col">구글</div>
+                <div class="col">카카오</div>
               </div>
               <div class="card-footer text-center">
                 <a href="#pablo" class="btn btn-info btn-round btn-lg btn-block"
