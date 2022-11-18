@@ -27,10 +27,13 @@
             <div class="btn btn-info btn-round btn-lg">회원 정보 수정</div>
           </router-link>
         </div>
-        <h3 class="title">내 관심지역</h3>
+        <h3 class="title">11</h3>
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">대충 리스트</h4>
+            <h4 class="title text-center">내 관심 지역</h4>
+          </div>
+          <div class="col-md-6 ml-auto mr-auto">
+            <h4 class="title text-center">내 관심 매물</h4>
           </div>
         </div>
       </div>

@@ -3,8 +3,8 @@
     <div class="container">
       <house-control />
       <div class="row">
-        <!-- <div class="col-md-0">여기에 리스트</div> -->
         <div class="col-md-12">
+          <HouseList />
           <HouseKakao />
         </div>
       </div>
@@ -15,6 +15,8 @@
 import { Button, FormGroupInput } from "@/components";
 import HouseControl from "./components/house/HouseControl.vue";
 import HouseKakao from "./components/house/HouseKakao.vue";
+import HouseList from "./components/house/HouseList.vue";
+
 export default {
   name: "HouseDeal",
   bodyClass: "housedeal-page",
@@ -23,6 +25,7 @@ export default {
     [FormGroupInput.name]: FormGroupInput,
     HouseControl,
     HouseKakao,
+    HouseList,
   },
   data() {
     return {
