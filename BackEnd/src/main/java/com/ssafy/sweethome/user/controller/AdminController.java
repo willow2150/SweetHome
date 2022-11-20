@@ -32,7 +32,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "회원 목록 조회", notes = "회원 목록을 조회한다.", response = Map.class)
-    @GetMapping("/user/list")
+    @GetMapping("/user")
     public ResponseEntity<Map<String, Object>> searchAllUsers() {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;

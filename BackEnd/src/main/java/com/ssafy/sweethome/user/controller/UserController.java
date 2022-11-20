@@ -326,10 +326,6 @@ public class UserController {
         log.debug("User withdrawal");
         try {
             User loginUser = userService.findUserIdAndUserPwdAndType(user);
-            System.out.println("###########");
-            System.out.println(loginUser);
-            System.out.println(user);
-            System.out.println("###########");
             if (loginUser != null
                     && loginUser.getUserId().equals(user.getUserId())
                     && BCrypt.checkpw(user.getUserPwd(), loginUser.getUserPwd())
