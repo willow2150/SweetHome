@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `sweethome`.`housedeal` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sweethome`.`user` (
     `user_id` VARCHAR(20) NOT NULL,
-    `user_pwd` VARCHAR(25) NOT NULL,
+    `user_pwd` VARCHAR(60) NOT NULL,
     `user_name` VARCHAR(20) NOT NULL,
     `user_address` VARCHAR(50) NOT NULL,
     `user_email` VARCHAR(50) NOT NULL,
@@ -171,7 +171,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 
-INSERT INTO user(`user_id`, `user_pwd`, `user_name`, `user_address`, `user_email`, `type`) VALUES('admin', '1234', '삼싸피', '서울특별시 강남구 역삼역 1번 출구', 'ssafy@ssafy.com', 'admin');
-insert into user(user_id, user_pwd, user_name, user_address, user_email) values("ssafyKim", "1234", "김싸피", "서울특별시 강남구 언주로 508 서울상록빌딩", "ssafyKim@ssafy.com");
-insert into board(user_id, `subject`, content) VALUES('ssafyKim', "가입 인사드립니다. 김싸피입니다.", "만반잘부ㅎㅎ");
-INSERT INTO notice(`user_id`, `subject`, `content`) VALUES('admin', '공지사항 테스트입니다.', '공지사항 테스트입니다.');
+--INSERT INTO user(`user_id`, `user_pwd`, `user_name`, `user_address`, `user_email`, `type`) VALUES('admin', '1234', '삼싸피', '서울특별시 강남구 역삼역 1번 출구', 'ssafy@ssafy.com', 'admin');
+--insert into user(user_id, user_pwd, user_name, user_address, user_email) values("ssafyKim", "1234", "김싸피", "서울특별시 강남구 언주로 508 서울상록빌딩", "ssafyKim@ssafy.com");
+--insert into board(user_id, `subject`, content) VALUES('ssafyKim', "가입 인사드립니다. 김싸피입니다.", "만반잘부ㅎㅎ");
+--INSERT INTO notice(`user_id`, `subject`, `content`) VALUES('admin', '공지사항 테스트입니다.', '공지사항 테스트입니다.');
