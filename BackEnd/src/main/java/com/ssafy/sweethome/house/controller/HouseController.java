@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,7 +23,6 @@ import java.util.Map;
 @Api("House Controller API")
 @Slf4j
 public class HouseController {
-<<<<<<< HEAD
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
@@ -33,56 +33,61 @@ public class HouseController {
         this.houseService = houseService;
     }
 
-=======
-//
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
-//    @ApiOperation(value = "아파트 거래 목록 조회(주소 혹은 아파트 이름)", notes = "주소 혹은 아파트 이름 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
-//    @GetMapping("/list")
-//    public ResponseEntity<Map<String, Object>> searchHouseListByAddressOrHouseName(
-//            @RequestBody @ApiParam(value = "주소 혹은 아파트 이름", required = true) Map<String, String> map) {
-//        log.debug("Apartment transaction listing lookup: by address or apartment name");
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status;
-//        try {
-<<<<<<< HEAD
-//
-//            /**
-//             *
-//             */
-=======
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
-//            // 주소로 dongCode 를 가져오고..
-//            // map에서 시도 구군 동, 위에서 찾은 dongCode 넘겨서 (예외처리하고) houseinfo, housedeal 조인해서 검색 (아파트이름있는지도 확인해야)
-//        } catch (Exception e) {
-//            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<>(resultMap, status);
-//    }
-//
-//    @ApiOperation(value = "아파트 거래 목록 조회(지역 고유 번호)", notes = "지역 고유 번호로 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
-//    @GetMapping("/list/{dongCode}")
-//    public ResponseEntity<Map<String, Object>> searchHouseListByDongCode(
-//            @PathVariable("dongCode") @ApiParam(value = "지역 고유 번호", required = true) String dongCode) {
-//        log.debug("Apartment transaction listing lookup: by local number");
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status;
-//        try {
-<<<<<<< HEAD
-//
-=======
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
-//            // 동 코드로 시도 구군 동 찾고..
-//            // 동코드 찾은거 넘기고  houseinfo, housedeal 조인해서 ㅇㅇ..
-//        } catch (Exception e) {
-//            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<>(resultMap, status);
-//    }
-<<<<<<< HEAD
+    @ApiOperation(value = "아파트 거래 목록 조회(주소 혹은 아파트 이름)", notes = "주소 혹은 아파트 이름 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
+    @GetMapping("/list")
+    public ResponseEntity<Map<String, Object>> searchHouseListByCondition(
+            @RequestBody @ApiParam(value = "주소 혹은 아파트 이름", required = true) Map<String, String> map) {
+        log.debug("Apartment transaction listing lookup: by address or apartment name");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            for (String str: map.keySet())
+                System.out.println(str);
+            if (map.containsKey("gugunName") || map.containsKey("houseName")) {
+                List<House> houseList = houseService.searchHouseListByCondition(map);
+                if (!houseList.isEmpty()) {
+                    log.debug("Get hoseList success - Number of houses found: {}", houseList.size());
+                    resultMap.put("houseList", houseList);
+                    status = HttpStatus.OK;
+                } else {
+                    log.debug("There are no house that meet the criteria.");
+                    status = HttpStatus.NO_CONTENT;
+                }
+                resultMap.put("message", SUCCESS);
+            } else {
+                log.debug("Failed: Insufficient input.\n");
+                resultMap.put("message", FAIL);
+                status = HttpStatus.BAD_REQUEST;
+            }
+        } catch (Exception e) {
+            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @ApiOperation(value = "아파트 거래 목록 조회(지역 고유 번호)", notes = "지역 고유 번호로 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
+    @GetMapping("/list/{dongCode}")
+    public ResponseEntity<Map<String, Object>> searchHouseListByDongCode(
+            @PathVariable("dongCode") @ApiParam(value = "지역 고유 번호", required = true) String dongCode) {
+        log.debug("Apartment transaction listing lookup: by local number");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            Dongcode region = houseService.searchRegionByDongCode(dongCode);
+            List<House> houseList = houseService.selectHouseListByDongCode(region);
+            log.debug("Get hoseList success - Number of houses found: {}", houseList.size());
+            resultMap.put("houseList", houseList);
+            resultMap.put("message", SUCCESS);
+            status = houseList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        } catch (Exception e) {
+            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
 
     @ApiOperation(value = "아파트 거래 조회(거래 고유 번호)", notes = "거래 고유 번호로 검색하여 아파트 거래를 조회한다.", response = Map.class)
     @GetMapping("/{dealNo}")
@@ -92,28 +97,29 @@ public class HouseController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            House house = new House();
-            Housedeal housedeal = houseService.selectHousedealByNo(dealNo);
-            Houseinfo houseinfo = houseService.selectHouseinfoByCode(housedeal.getHouseCode());
-            Dongcode dongcode = houseService.selectRegionByDongCode(houseinfo.getDongCode());
-            house.setDealNo(dealNo);
-            house.setDongCode(houseinfo.getDongCode());
-            house.setHouseName(houseinfo.getHouseName());
-            house.setAddress(
-                    dongcode.getSidoName() + " "
-                            + dongcode.getGugunName() + " "
-                            + dongcode.getDongName() + " "
-                            + houseinfo.getJibun()
+            Housedeal housedeal = houseService.searchHousedealByNo(dealNo);
+            Houseinfo houseinfo = houseService.searchHouseinfoByCode(housedeal.getHouseCode());
+            Dongcode dongcode = houseService.searchRegionByDongCode(houseinfo.getDongCode());
+            resultMap.put("house",
+                    House.builder()
+                            .dealNo(dealNo)
+                            .dongCode(houseinfo.getDongCode())
+                            .houseName(houseinfo.getHouseName())
+                            .address(dongcode.getSidoName() + " "
+                                    + dongcode.getGugunName() + " "
+                                    + dongcode.getDongName() + " "
+                                    + houseinfo.getJibun())
+                            .buildYear(houseinfo.getBuildYear())
+                            .lng(houseinfo.getLng())
+                            .lat(houseinfo.getLat())
+                            .dealYear(housedeal.getDealYear())
+                            .dealMonth(housedeal.getDealMonth())
+                            .area(housedeal.getArea())
+                            .floor(housedeal.getFloor())
+                            .build()
             );
-            house.setBuildYear(houseinfo.getBuildYear());
-            house.setLng(houseinfo.getLng());
-            house.setLat(houseinfo.getLat());
-            house.setDealYear(housedeal.getDealYear());
-            house.setDealMonth(housedeal.getDealMonth());
-            house.setArea(housedeal.getArea());
-            house.setFloor(housedeal.getFloor());
+            log.debug("Apartment Search Success");
             resultMap.put("message", SUCCESS);
-            resultMap.put("house", house);
             status = HttpStatus.OK;
         } catch (Exception e) {
             log.debug("Apartment Transaction Query Failed: {}", e.getMessage());
@@ -123,29 +129,6 @@ public class HouseController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-=======
-//
-//    @ApiOperation(value = "아파트 거래 조회(거래 고유 번호)", notes = "거래 고유 번호로 검색하여 아파트 거래를 조회한다.", response = Map.class)
-//    @GetMapping("/{dealNo}")
-//    public ResponseEntity<Map<String, Object>> searchHouseByHousedealNo(
-//            @PathVariable("dealNo") @ApiParam(value = "지역 고유 번호", required = true) long dealNo) {
-//        log.debug("Apartment transaction lookup: by transaction number");
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status;
-//        try {
-//            // 고유번호로 매물찾아서 House객체에 넣고
-//            // 찾아온 houseCode로 정보 찾아서 객체에 넣고
-//            // dongCode로 시군구 찾아 넣고..
-//
-//        } catch (Exception e) {
-//            log.debug("Apartment Transaction Query Failed: {}", e.getMessage());
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<>(resultMap, status);
-//    }
-//
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
 //    @ApiOperation(value = "아파트 거래 목록 조회(위도 및 경도)", notes = "위도 및 경도로 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
 //    @GetMapping("/{lat}/{lng}")
 //    public ResponseEntity<Map<String, Object>> searchHouseListByLatAndLng(

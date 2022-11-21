@@ -12,41 +12,15 @@ import java.util.Map;
 
 @Mapper
 public interface HouseMapper {
-//    List<House> selectHouseList(Map<String, String> map) throws SQLException;
-//
-//    List<House> selectHouseListByDongCode(String dongCode) throws SQLException;
-//
-//    House selectHouseByDealNo(String dealNo) throws SQLException;
-//
-//    House selectHouseByPoint(String lat, String lng) throws SQLException;
 
-<<<<<<< HEAD
     // 주소 혹은 아파트로 조회
-    List<House> selectHouseListByAddressOrHouseName(Map<String, String> map) throws SQLException;
+    List<House> selectHouseByCondition(Map<String, String> map) throws SQLException;
 
     // 지역 고유 번호로 조회
-    List<House> selectHouseListByDongCode(String dongCode) throws SQLException;
+    List<House> selectHouseListByDongCode(Dongcode dongCode) throws SQLException;
 
     // 거래 고유 번호로 조회
     Housedeal selectHousedealByNo(long no) throws SQLException;
     Houseinfo selectHouseinfoByCode(long houseCode) throws SQLException;
     Dongcode selectRegionByDongCode(String dongCode) throws SQLException;
-    
-    // 위도 및 경도로 조회
-=======
-//    // 주소 혹은 아파트로 조회
-//    List<House> selectHouseListByAddressOrHouseName(Map<String, String> map) throws SQLException;
-//
-//    // 지역 고유 번호로 조회
-//    List<House> selectHouseListByDongCode(String dongCode) throws SQLException;
-//
-//    // 거래 고유 번호로 조회
-//    Housedeal selectHousedealByNo(long no) throws SQLException;
-//    Houseinfo selectHouseinfoByCode(long houseCode) throws SQLException;
-//    Dongcode selectRegionByDongCode(String dongCode) throws SQLException;
-//
-//    // 위도 및 경도로 조회
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
-//    List<House> selectHouseListByLatAndLng(String lat, String lng) throws SQLException;
-
 }

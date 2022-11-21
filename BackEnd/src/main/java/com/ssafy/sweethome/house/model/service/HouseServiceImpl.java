@@ -21,27 +21,27 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<House> selectHouseListByAddressOrHouseName(Map<String, String> map) throws Exception {
-        return houseMapper.selectHouseListByAddressOrHouseName(map);
+    public List<House> searchHouseListByCondition(Map<String, String> map) throws Exception {
+        return houseMapper.selectHouseByCondition(map);
     }
 
     @Override
-    public List<House> selectHouseListByDongCode(String dongCode) throws Exception {
+    public List<House> selectHouseListByDongCode(Dongcode dongCode) throws Exception {
         return houseMapper.selectHouseListByDongCode(dongCode);
     }
 
     @Override
-    public Housedeal selectHousedealByNo(long no) throws Exception {
+    public Housedeal searchHousedealByNo(long no) throws Exception {
         return houseMapper.selectHousedealByNo(no);
     }
 
     @Override
-    public Houseinfo selectHouseinfoByCode(long houseCode) throws Exception {
+    public Houseinfo searchHouseinfoByCode(long houseCode) throws Exception {
         return houseMapper.selectHouseinfoByCode(houseCode);
     }
 
     @Override
-    public Dongcode selectRegionByDongCode(String dongCode) throws Exception {
+    public Dongcode searchRegionByDongCode(String dongCode) throws Exception {
         return houseMapper.selectRegionByDongCode(dongCode);
     }
 }

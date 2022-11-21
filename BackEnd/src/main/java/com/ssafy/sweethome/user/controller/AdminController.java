@@ -4,6 +4,7 @@ import com.ssafy.sweethome.user.model.User;
 import com.ssafy.sweethome.user.model.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,9 @@ public class AdminController {
     }
 
     @ApiOperation(value = "회원 목록 조회(조건 검색)", notes = "조건에 맞는 회원 목록을 조회한다", response = Map.class)
-    @GetMapping("/user/{attribute}")
+    @GetMapping("/user/search")
     public ResponseEntity<Map<String, Object>> searchUsersByCondition(
-            @RequestParam Map<String, String> map) {
+            @RequestBody @ApiParam(value = "검색 조건", required = true) Map<String, String> map) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         log.debug("Search Users By Condition");
@@ -61,7 +62,6 @@ public class AdminController {
             if (map.containsKey("userName")) user.setUserName(map.get("userName"));
             if (map.containsKey("userAddress")) user.setUserAddress(map.get("userAddress"));
             if (map.containsKey("userEmail")) user.setUserEmail(map.get("userEmail"));
-            System.out.println(user);
             List<User> userList = userService.searchUsersByCondition(user);
             log.debug("Return user list");
             resultMap.put("userList", userList);

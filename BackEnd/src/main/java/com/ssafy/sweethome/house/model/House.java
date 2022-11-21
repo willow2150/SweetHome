@@ -22,10 +22,6 @@ public class House {
     @ApiModelProperty(value = "아파트 이름")
     private String houseName;
 
-    // sidoName + " " + gugunName + " " +  roadName + " " + roadNameBonbun + " " + roadNameBubun(if exists)
-//    @ApiModelProperty(value = "도로명 주소")
-//    private String roadAddress;
-
     // sidoName + " " + gugunName + " " +  dongName + " " + jibun
     @ApiModelProperty(value = "지번 주소")
     private String address;

@@ -13,13 +13,13 @@ import java.util.Map;
 @Service
 public interface HouseService {
 
-    List<House> selectHouseListByAddressOrHouseName(Map<String, String> map) throws Exception;
+    List<House> searchHouseListByCondition(Map<String, String> map) throws Exception;
 
-    List<House> selectHouseListByDongCode(String dongCode) throws Exception;
+    List<House> selectHouseListByDongCode(Dongcode dongCode) throws Exception;
 
-    Housedeal selectHousedealByNo(long no) throws Exception;
+    Housedeal searchHousedealByNo(long no) throws Exception;
 
-    Houseinfo selectHouseinfoByCode(long houseCode) throws Exception;
+    Houseinfo searchHouseinfoByCode(long houseCode) throws Exception;
 
-    Dongcode selectRegionByDongCode(String dongCode) throws Exception;
+    Dongcode searchRegionByDongCode(String dongCode) throws Exception;
 }

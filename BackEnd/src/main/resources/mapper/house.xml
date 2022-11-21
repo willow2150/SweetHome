@@ -4,109 +4,121 @@
 
 <mapper namespace="com.ssafy.sweethome.house.model.mapper.HouseMapper">
 
-<!--    <resultMap type="House" id="House">-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--        <result column="comment_id" property="commentId"/>-->
-<!--    </resultMap>-->
+    <!-- 아파트 거래 조회(By 거래 고유 번호) -->
 
-<!--    <resultMap type="DongCode" id="DongCode">-->
-<!--        <result column="dongCode" property="dongCode"/>-->
-<!--        <result column="sidoName" property="sidoName"/>-->
-<!--        <result column="gugunName" property="gugunName"/>-->
-<!--        <result column="dongName" property="dongName"/>-->
-<!--    </resultMap>-->
-
-<!--    <resultMap type="Houseinfo" id="Houseinfo">-->
-<!--        <result column="houseCode" property="houseCode"/>-->
-<!--        <result column="buildYear" property="buildYear"/>-->
-<!--        <result column="roadName" property="roadName"/>-->
-<!--        <result column="roadNameBonbun" property="roadNameBonbun"/>-->
-<!--        <result column="roadNameBubun" property="roadNameBubun"/>-->
-<!--        <result column="dongCode" property="dongCode"/>-->
-<!--        <result column="houseName" property="houseName"/>-->
-<!--        <result column="jibun" property="jibun"/>-->
-<!--        <result column="lng" property="lng"/>-->
-<!--        <result column="lat" property="lat"/>-->
-<!--    </resultMap>-->
-
-<!--    <resultMap type="Housedeal" id="Housedeal">-->
-<!--        <result column="no" property="no"/>-->
-<!--        <result column="dealAmount" property="dealAmount"/>-->
-<!--        <result column="dealYear" property="dealYear"/>-->
-<!--        <result column="dealMonth" property="dealMonth"/>-->
-<!--        <result column="dealDay" property="dealDay"/>-->
-<!--        <result column="area" property="area"/>-->
-<!--        <result column="floor" property="floor"/>-->
-<!--        <result column="houseCode" property="houseCode"/>-->
-<!--    </resultMap>-->
-
-
-<!--    &lt;!&ndash; 아파트 거래 조회(by 거래 고유 번호) &ndash;&gt;-->
-
-<<<<<<< HEAD
-    <select id="selectHousedealByNo" parameterType="long" resultMap="Housedeal">
+    <select id="selectHousedealByNo" parameterType="long" resultType="Housedeal">
         SELECT no AS dealNo, area, floor, dealYear, dealMonth, houseCode
         FROM housedeal
         WHERE no = #{no}
     </select>
 
-    <select id="selectHouseinfoByCode" parameterType="long" resultMap="Houseinfo">
+    <select id="selectHouseinfoByCode" parameterType="long" resultType="Houseinfo">
         SELECT lat, lng, buildYear, houseName, jibun, dongCode
         FROM houseinfo
         WHERE houseCode = #{houseCode}
     </select>
-=======
-<!--    <select id="selectHousedealByNo" parameterType="long" resultMap="Housedeal">-->
-<!--        SELECT no AS dealNo, area, floor, dealYear, dealMonth, dealDay, houseCode-->
-<!--        FROM housedeal-->
-<!--        WHERE no = #{no}-->
-<!--    </select>-->
 
-<!--    <select id="selectHouseinfoByCode" parameterType="long" resultMap="Houseinfo">-->
-<!--        SELECT lat, lng, buildYear, roadName, roadNameBonbun, roadNameBubun, jibun, dongCode-->
-<!--        FROM houseinfo-->
-<!--        WHERE houseCode = #{houseCode}-->
-<!--    </select>-->
->>>>>>> 9bcc54dd939cabd92981bf8949d9ad7eb1f5be45
-
-<!--    <select id="selectRegionByDongCode" parameterType="string" resultMap="DongCode">-->
-<!--        SELECT sidoName, gugunName, dongName-->
-<!--        FROM dongCode-->
-<!--        WHERE dongCode = #{dongCode}-->
-<!--    </select>-->
+    <select id="selectRegionByDongCode" parameterType="string" resultType="Dongcode">
+        SELECT dongCode, sidoName, gugunName, dongName
+        FROM dongcode
+        WHERE dongCode = #{dongCode}
+    </select>
 
 
-<!--    &lt;!&ndash; 아파트 거래 목록 조회(by 지역 고유 번호) &ndash;&gt;-->
+    <!-- 아파트 거래 조회(By 시도, 구군, 동, 아파트 이름 -->
 
-<!--    <select id="selectHouseListByDongCode" parameterType="map" resultMap="House">-->
-<!--        SELECT hd.no AS dealNo, hi.dongCode, hi.houseName,-->
-<!--               CONCAT(#{sidoName}, ' ', #{gugunName}, ' ', #{dongName}, ' ', #{hi.jibun}) AS address-->
-<!--               hi.buildYear, hi.lng, hi.lat, hd.dealYear, hd.dealMonth, hd.area, hd.floor-->
-<!--        FROM housedeal AS hd JOIN (SELECT houseCode, dongCode, buildYear, houseName, lng, lat)-->
-<!--                                   FROM houseinfo-->
-<!--                                   WHERE dongCode = #{dongCode}-->
-<!--                                   ) AS hi-->
-<!--        ON hi.houseCode = hd.houseCode-->
-<!--    </select>-->
+    <select id="selectHouseByCondition" parameterType="map" resultType="house">
+        <choose>
+            <when test="houseName != null">
+                SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
+                       tmp.buildYear, tmp.lng, tmp.lat,
+                       hd.dealYear, hd.dealMonth, hd.area, hd.floor
+                FROM (SELECT dc.dongCode, hi.houseName,
+                             CONCAT(dc.sidoName, ' ', dc.gugunName, ' ', hi.dong, ' ', hi.jibun) AS address,
+                             hi.buildYear, hi.lng, hi.lat, hi.houseCode
+                      FROM (SELECT houseName, dong, jibun, buildYear, lng, lat, houseCode, dongCode
+                            FROM houseinfo
+                            WHERE houseName = #{houseName}
+                           ) AS hi
+                           INNER JOIN
+                           (SELECT dongCode, sidoName, gugunName, dongName
+                            FROM dongcode
+                            <choose>
+                                <when test="dongName != null">
+                                    WHERE sidoName = #{sidoName}
+                                          AND gugunName = #{gugunName}
+                                          AND dongName = #{dongName}
+                                </when>
+                                <when test="gugunName != null">
+                                    WHERE sidoName = #{sidoName}
+                                          AND gugunName = #{gugunName}
+                                </when>
+                                <when test="sidoName != null">
+                                    WHERE sidoName = #{sidoName}
+                                </when>
+                            </choose>
+                            ) AS dc
+                            ON hi.dongCode = dc.dongCode
+                      ) AS tmp
+                      INNER JOIN
+                      housedeal AS hd
+                      ON tmp.houseCode = hd.houseCode
+            </when>
+            <otherwise>
+                SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
+                       tmp.buildYear, tmp.lng, tmp.lat,
+                       hd.dealYear, hd.dealMonth, hd.area, hd.floor
+                FROM (SELECT dc.dongCode, hi.houseName,
+                             CONCAT(dc.sidoName, ' ', dc.gugunName, ' ', hi.dong, ' ', hi.jibun) AS address,
+                             hi.buildYear, hi.lng, hi.lat, hi.houseCode
+                      FROM houseinfo AS hi
+                           INNER JOIN
+                           (SELECT dongCode, sidoName, gugunName, dongName
+                            FROM dongcode
+                            <choose>
+                                <when test="dongName != null">
+                                    WHERE sidoName = #{sidoName}
+                                    AND gugunName = #{gugunName}
+                                    AND dongName = #{dongName}
+                                </when>
+                                <otherwise>
+                                    WHERE sidoName = #{sidoName}
+                                    AND gugunName = #{gugunName}
+                                </otherwise>
+                            </choose>
+                            ) AS dc
+                            ON hi.dongCode = dc.dongCode
+                      ) AS tmp
+                      INNER JOIN
+                      housedeal AS hd
+                      ON tmp.houseCode = hd.houseCode
+            </otherwise>
+        </choose>
+    </select>
 
 
+    <!-- 아파트 거래 목록 조회(by 지역 고유 번호) -->
 
-<!--    &lt;!&ndash; 아파트 거래 목록 조회(by 주소 혹은 파아트 이름) &ndash;&gt;-->
-
-
-
+    <select id="selectHouseListByDongCode" parameterType="DongCode" resultType="House">
+        SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
+               tmp.buildYear, tmp.lng, tmp.lat,
+               hd.dealYear, hd.dealMonth, hd.area, hd.floor
+        FROM (
+              SELECT hi.houseCode, hi.buildYear, hi.houseName, hi.lng, hi.lat, hi.dongCode,
+                     CONCAT(#{sidoName}, ' ', #{gugunName}, ' ', hi.dong, ' ', hi.jibun) AS address
+              FROM houseinfo AS hi
+              WHERE
+                 <choose>
+                     <when test="dongName != null">
+                         hi.dongCode = #{dongCode}
+                     </when>
+                     <otherwise>
+                         SUBSTRING(hi.dongCode, 1, 5) = SUBSTRING(#{dongCode}, 1, 5)
+                     </otherwise>
+                 </choose>
+             ) AS tmp
+             INNER JOIN
+             housedeal AS hd
+             ON tmp.houseCode = hd.houseCode
+    </select>
 </mapper>
