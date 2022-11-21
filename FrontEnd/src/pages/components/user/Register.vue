@@ -124,6 +124,7 @@ export default {
   methods: {
     ...mapActions(userStore, ["userRegist"]),
     async regist() {
+      console.log(this.user);
       await this.userRegist(this.user);
       this.$router.push("/");
     },

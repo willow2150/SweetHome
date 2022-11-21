@@ -8,6 +8,7 @@ import Board from "./pages/Board.vue";
 import Notice from "./pages/Notice.vue";
 // import Join from "./pages/Join.vue";
 import Modify from "./pages/components/user/Modify.vue";
+import PasswordModify from "./pages/components/user/PasswordModify.vue";
 import Register from "./pages/components/user/Register.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
@@ -53,14 +54,14 @@ export default new Router({
         header: { colorOnScroll: 400 },
       },
     },
-    // {
-    //   path: "/join",
-    //   name: "join",
-    //   components: { default: Join, header: MainNavbar },
-    //   props: {
-    //     header: { colorOnScroll: 400 },
-    //   },
-    // },
+    {
+      path: "/passmodify",
+      name: "passmodify",
+      components: { default: PasswordModify, header: MainNavbar },
+      props: {
+        header: { colorOnScroll: 400 },
+      },
+    },
     {
       path: "/profile",
       name: "profile",

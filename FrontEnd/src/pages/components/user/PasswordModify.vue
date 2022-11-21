@@ -21,25 +21,11 @@
           <div style="width: 110px">
             <span class="h5">PASSWORD</span>
           </div>
-          <div class="col-lg-4" style="text-align: center">
-            <div class="button-container mr-1">
-              <router-link to="/passmodify">
-                <span class="btn btn-info btn-round btn-lg">패스워드 수정</span>
-              </router-link>
-            </div>
-          </div>
-        </div>
-        <div
-          class="inputBox container d-flex justify-content-center align-items-center"
-        >
-          <div style="width: 110px">
-            <span class="h5">NAME</span>
-          </div>
           <div class="col-lg-4" style="text-align: center; padding-top: 19px">
             <fg-input
               class="input-lg"
-              v-model="user.userName"
-              :placeholder="`${this.userInfo.userName}`"
+              v-model="user.userPwd"
+              placeholder="기존 패스워드"
             >
             </fg-input>
           </div>
@@ -48,28 +34,13 @@
           class="inputBox container d-flex justify-content-center align-items-center"
         >
           <div style="width: 110px">
-            <span class="h5">ADDRESS</span>
+            <span class="h5">NEW PASSWORD</span>
           </div>
           <div class="col-lg-4" style="text-align: center; padding-top: 19px">
             <fg-input
               class="input-lg"
-              v-model="user.userAddress"
-              :placeholder="`${this.userInfo.userAddress}`"
-            >
-            </fg-input>
-          </div>
-        </div>
-        <div
-          class="inputBox container d-flex justify-content-center align-items-center"
-        >
-          <div style="width: 110px">
-            <span class="h5">E-MAIL</span>
-          </div>
-          <div class="col-lg-4" style="text-align: center; padding-top: 19px">
-            <fg-input
-              class="input-lg"
-              v-model="user.userEmail"
-              :placeholder="`${this.userInfo.userEmail}`"
+              v-model="user.newUserPwd"
+              placeholder="새 패스워드"
             >
             </fg-input>
           </div>
@@ -77,15 +48,12 @@
         <div class="" style="margin-top: 40px">
           <div class="container d-flex justify-content-center">
             <div class="button-container mr-1">
-              <span class="btn btn-info btn-round btn-lg" @click="changePro"
+              <span class="btn btn-info btn-round btn-lg" @click="changePass"
                 >수정</span
               >
             </div>
             <div class="button-container mr-1">
-              <span class="btn btn-danger btn-round btn-lg">탈퇴</span>
-            </div>
-            <div class="button-container mr-1">
-              <router-link to="/profile">
+              <router-link to="/profilemodify">
                 <span class="btn btn-default btn-round btn-lg">취소</span>
               </router-link>
             </div>
@@ -102,7 +70,7 @@ import { mapState, mapActions } from "vuex";
 const userStore = "userStore";
 
 export default {
-  name: "Modify",
+  name: "PasswordModify",
   bodyClass: "login-page",
   components: {
     [Button.name]: Button,
@@ -112,9 +80,8 @@ export default {
     return {
       user: {
         userId: null,
-        userName: null,
-        userAddress: null,
-        userEmail: null,
+        userPwd: null,
+        newUserPwd: null,
       },
     };
   },
@@ -122,11 +89,12 @@ export default {
     ...mapState(userStore, ["userInfo"]),
   },
   methods: {
-    ...mapActions(userStore, ["changeProfile"]),
-    async changePro() {
+    ...mapActions(userStore, ["changePassword"]),
+    async changePass() {
       this.user.userId = this.userInfo.userId;
-      await this.changeProfile(this.user);
-      this.$router.push("/profile");
+      // console.log(this.user);
+      await this.changePassword(this.user);
+      this.$router.push("/profilemodify");
     },
   },
 };

@@ -39,11 +39,11 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="" target="/">
+        <div class="nav-link" href="" target="/">
           <router-link to="/housedeal">
             <p>아파트 매물 조회</p>
           </router-link>
-        </a>
+        </div>
       </li>
       <drop-down
         tag="li"
@@ -68,7 +68,7 @@
           <i class="now-ui-icons users_single-02"></i> 내 프로필
         </nav-link>
         <nav-link to="">
-          <i class="now-ui-icons ui-2_favourite-28"></i> 내 관심지역
+          <i class="now-ui-icons ui-2_favourite-28"></i> 미정
         </nav-link>
       </drop-down>
 
