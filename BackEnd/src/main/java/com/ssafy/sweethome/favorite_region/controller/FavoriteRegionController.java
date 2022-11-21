@@ -29,21 +29,21 @@ public class FavoriteRegionController {
         this.favoriteRegionService = favoriteRegionService;
     }
 
-    @ApiOperation(value = "관심 지역 목록 조회", notes = "관심 지역 목록을 조회한다.", response = Map.class)
+    @ApiOperation(value = "관심 지역 코드 목록 조회", notes = "관심 지역 코드 목록을 조회한다.", response = Map.class)
     @GetMapping("/list/{user_id}")
     public ResponseEntity<Map<String, Object>> searchAllFavoriteRegion(
-            @PathVariable("userId") @ApiParam(value = "관심 지역 목록을 조회할 계정", required = true) String userId) {
+            @PathVariable("user_id") @ApiParam(value = "관심 지역 코드 목록을 조회할 계정", required = true) String userId) {
         log.debug("Search the list of interested transactions");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            List<FavoriteRegion> favoriteRegionList = favoriteRegionService.getFavoriteRegionList(userId);
-            if (favoriteRegionList.isEmpty()) {
+            List<FavoriteRegion> favoriteRegionCodeList = favoriteRegionService.getFavoriteRegionCodeList(userId);
+            if (favoriteRegionCodeList.isEmpty()) {
                 log.debug("No region of interest");
                 status = HttpStatus.NO_CONTENT;
             } else {
                 log.debug("Successfully importing the list of points of interest");
-                resultMap.put("favoriteRegionList", favoriteRegionList);
+                resultMap.put("favoriteRegionCodeList", favoriteRegionCodeList);
                 status = HttpStatus.OK;
             }
         } catch (Exception e) {

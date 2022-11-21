@@ -5,7 +5,7 @@ import com.ssafy.sweethome.favorite_housedeal.model.FavoriteHousedeal;
 import java.util.List;
 
 public interface FavoriteHousedealService {
-    List<FavoriteHousedeal> getFavoriteHousedealList(String userId) throws Exception;
+    List<FavoriteHousedeal> getFavoriteHousedealNoList(String userId) throws Exception;
 
     boolean deleteFavoriteHousedeal(FavoriteHousedeal favoriteHousedeal) throws Exception;
 

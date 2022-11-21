@@ -17,8 +17,8 @@ public class FavoriteRegionServiceImpl implements FavoriteRegionService {
     }
 
     @Override
-    public List<FavoriteRegion> getFavoriteRegionList(String userId) throws Exception {
-        return favoriteRegionMapper.selectFavoriteRegionList(userId);
+    public List<FavoriteRegion> getFavoriteRegionCodeList(String userId) throws Exception {
+        return favoriteRegionMapper.selectFavoriteRegionCodeList(userId);
     }
 
     @Override

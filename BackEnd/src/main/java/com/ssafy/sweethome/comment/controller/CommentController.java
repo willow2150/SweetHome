@@ -32,12 +32,12 @@ public class CommentController {
     @ApiOperation(value = "댓글 목록 조회", notes = "댓글 목록을 조회한다.", response = Map.class)
     @GetMapping("/list/{article_no}")
     public ResponseEntity<Map<String, Object>> searchAllComments(
-            @PathVariable("articleNo") @ApiParam(value = "댓글을 조회할 게시글 번호", required = true) String articleNo) {
+            @PathVariable("article_no") @ApiParam(value = "댓글을 조회할 게시글 번호", required = true) int articleNo) {
         log.debug("Search the comment list");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            List<Comment> commentList = commentService.getCommentList(Integer.parseInt(articleNo));
+            List<Comment> commentList = commentService.getCommentList(articleNo);
             if (commentList.isEmpty()) {
                 log.debug("Fetching list of comments failed: No comments");
                 status = HttpStatus.NO_CONTENT;
@@ -107,12 +107,12 @@ public class CommentController {
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.", response = String.class)
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<Map<String, String>> deleteComment(
-            @PathVariable("commentId") @ApiParam(value = "삭제할 댓글의 고유 번호", required = true) String commentId) {
+            @PathVariable("comment_id") @ApiParam(value = "삭제할 댓글의 고유 번호", required = true) int commentId) {
         log.debug("Delete comments");
         Map<String, String> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            if (commentService.deleteComment(Integer.parseInt(commentId))) {
+            if (commentService.deleteComment(commentId)) {
                 log.debug("Comment deleted successfully");
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.OK;

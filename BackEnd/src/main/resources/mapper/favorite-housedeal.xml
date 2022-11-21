@@ -10,7 +10,7 @@
     </resultMap>
 
 
-    <select id="selectFavoriteHousedealList" parameterType="string" resultMap="FavoriteHousedeal">
+    <select id="selectFavoriteHousedealNoList" parameterType="string" resultMap="FavoriteHousedeal">
         SELECT housedeal_no
         FROM favoritehousedeal
         WHERE user_id = #{userId}

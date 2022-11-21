@@ -29,21 +29,21 @@ public class FavoriteHousedealController {
         this.favoriteHousedealService = favoriteHousedealService;
     }
 
-    @ApiOperation(value = "관심 거래 목록 조회", notes = "관심 거래 목록을 조회한다.", response = Map.class)
+    @ApiOperation(value = "관심 거래 일련번호 목록 조회", notes = "관심 거래 일련번호 목록을 조회한다.", response = Map.class)
     @GetMapping("/list/{user_id}")
-    public ResponseEntity<Map<String, Object>> searchAllFavoriteHousedeal(
-            @PathVariable("userId") @ApiParam(value = "관심 거래 목록을 조회할 계정", required = true) String userId) {
+    public ResponseEntity<Map<String, Object>> searchAllFavoriteHousedealNo(
+            @PathVariable("user_id") @ApiParam(value = "관심 거래 일련번호 목록을 조회할 계정", required = true) String userId) {
         log.debug("Search the list of interested transactions");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            List<FavoriteHousedeal> favoriteHousedealList = favoriteHousedealService.getFavoriteHousedealList(userId);
-            if (favoriteHousedealList.isEmpty()) {
+            List<FavoriteHousedeal> favoriteHousedealNoList = favoriteHousedealService.getFavoriteHousedealNoList(userId);
+            if (favoriteHousedealNoList.isEmpty()) {
                 log.debug("No trades of interest listed");
                 status = HttpStatus.NO_CONTENT;
             } else {
                 log.debug("Successfully importing a list of interested transactions");
-                resultMap.put("favoriteHousedealList", favoriteHousedealList);
+                resultMap.put("favoriteHousedealNoList", favoriteHousedealNoList);
                 status = HttpStatus.OK;
             }
         } catch (Exception e) {

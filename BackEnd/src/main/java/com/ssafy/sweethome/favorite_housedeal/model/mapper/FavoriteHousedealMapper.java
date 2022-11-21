@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface FavoriteHousedealMapper {
-    List<FavoriteHousedeal> selectFavoriteHousedealList(String userId) throws SQLException;
+    List<FavoriteHousedeal> selectFavoriteHousedealNoList(String userId) throws SQLException;
 
     int deleteFavoriteHousedeal(FavoriteHousedeal favoriteHousedeal) throws SQLException;
 
