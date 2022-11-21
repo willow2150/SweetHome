@@ -41,8 +41,6 @@ public class HouseController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            for (String str: map.keySet())
-                System.out.println(str);
             if (map.containsKey("gugunName") || map.containsKey("houseName")) {
                 List<House> houseList = houseService.searchHouseListByCondition(map);
                 if (!houseList.isEmpty()) {

@@ -61,7 +61,6 @@ public class FavoriteHousedealController {
         log.debug("Add the transaction of interest");
         Map<String, String> resultMap = new HashMap<>();
         HttpStatus status;
-        System.out.println(favoriteHousedeal);
         try {
             if (favoriteHousedealService.insertFavoriteHousedeal(favoriteHousedeal)) {
                 log.debug("Add interest transaction success");
