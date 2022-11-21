@@ -13,6 +13,8 @@
               class="no-border input-lg"
               addon-left-icon="now-ui-icons users_circle-08"
               placeholder="아이디 입력하세요"
+              v-model="user.userId"
+              @keyup.enter="confirm"
             >
             </fg-input>
 
@@ -20,6 +22,8 @@
               class="no-border input-lg"
               addon-left-icon="now-ui-icons text_caps-small"
               placeholder="비밀번호 입력하세요"
+              v-model="user.userPwd"
+              @keyup.enter="confirm"
             >
             </fg-input>
 
@@ -32,8 +36,10 @@
                 <div class="col">카카오</div>
               </div>
               <div class="card-footer text-center">
-                <a href="#pablo" class="btn btn-info btn-round btn-lg btn-block"
-                  >로그인</a
+                <span
+                  class="btn btn-info btn-round btn-lg btn-block"
+                  @click="confirm"
+                  >로그인</span
                 >
               </div>
               <div class="pull-left">
@@ -56,6 +62,9 @@
 <script>
 import { Card, Button, FormGroupInput } from "@/components";
 import LoginNaverButton from "./components/user/LoginNaverButton.vue";
+import { mapState, mapActions } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "login-page",
@@ -65,6 +74,34 @@ export default {
     LoginNaverButton,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
+  },
+  data() {
+    return {
+      // isLoginError: false,
+      user: {
+        userId: null,
+        userPwd: null,
+      },
+    };
+  },
+  computed: {
+    ...mapState(userStore, ["isLogin", "isLoginError", "userInfo"]),
+  },
+  methods: {
+    ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.user);
+      let token = sessionStorage.getItem("access-token");
+      // console.log("1. confirm() token >> " + token);
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        // console.log("4. confirm() userInfo :: ", this.userInfo);
+        this.$router.push("/");
+      }
+    },
+    movePage() {
+      this.$router.push({ name: "join" });
+    },
   },
 };
 </script>

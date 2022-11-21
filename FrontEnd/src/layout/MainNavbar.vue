@@ -72,7 +72,14 @@
         </nav-link>
       </drop-down>
 
-      <li class="nav-item">
+      <li class="nav-item" v-if="userInfo">
+        <div class="nav-link btn btn-neutral text-info" @click="onClickLogout">
+          <i class="now-ui-icons users_single-02"></i>
+          <p>로그아웃</p>
+        </div>
+      </li>
+
+      <li class="nav-item" v-else>
         <router-link to="/login" class="nav-link btn btn-neutral text-info">
           <i class="now-ui-icons users_single-02"></i>
           <p>로그인</p>
@@ -125,6 +132,10 @@
 <script>
 import { DropDown, Navbar, NavLink } from "@/components";
 import { Popover } from "element-ui";
+import { mapState, mapGetters, mapActions } from "vuex";
+
+const userStore = "userStore";
+
 export default {
   name: "main-navbar",
   props: {
@@ -136,6 +147,31 @@ export default {
     Navbar,
     NavLink,
     [Popover.name]: Popover,
+  },
+  computed: {
+    ...mapState(userStore, ["isLogin", "isLoginError", "userInfo"]),
+    ...mapGetters(userStore, ["checkUserInfo"]),
+  },
+  methods: {
+    ...mapActions(userStore, ["userLogout"]),
+    onClickLogout() {
+      // this.SET_IS_LOGIN(false);
+      // this.SET_USER_INFO(null);
+      // sessionStorage.removeItem("access-token");
+      // if (this.$route.path != "/") this.$router.push({ name: "main" });
+      // console.log(this.userInfo);
+      //vuex actions에서 userLogout 실행(Backend에 저장 된 리프레시 토큰 없애기
+      //+ satate에 isLogin, userInfo 정보 변경)
+      // this.$store.dispatch("userLogout", this.userInfo.userid);
+      if (this.userInfo) {
+        this.userLogout(this.userInfo.userId);
+        sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
+        sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+      } else {
+        console.log("유저 정보 없음!!!!");
+      }
+      if (this.$route.path != "/") this.$router.push("/");
+    },
   },
 };
 </script>
