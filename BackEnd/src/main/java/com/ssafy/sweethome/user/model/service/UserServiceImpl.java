@@ -36,12 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserIdDuplication(String userId) throws Exception {
-        System.out.println("########################");
-        System.out.println(userId);
-        System.out.println(userMapper.selectUserById(userId));
-        User user = userMapper.selectUserById(userId);
-        System.out.println(user);
-        return user != null;
+        return userMapper.selectUserById(userId) != null;
     }
 
     @Override

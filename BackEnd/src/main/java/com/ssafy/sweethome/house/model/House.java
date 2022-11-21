@@ -23,8 +23,8 @@ public class House {
     private String houseName;
 
     // sidoName + " " + gugunName + " " +  roadName + " " + roadNameBonbun + " " + roadNameBubun(if exists)
-    @ApiModelProperty(value = "도로명 주소")
-    private String roadAddress;
+//    @ApiModelProperty(value = "도로명 주소")
+//    private String roadAddress;
 
     // sidoName + " " + gugunName + " " +  dongName + " " + jibun
     @ApiModelProperty(value = "지번 주소")
@@ -45,21 +45,9 @@ public class House {
     @ApiModelProperty(value = "거래 월")
     private int dealMonth;
 
-    @ApiModelProperty(value = "거래 일")
-    private int dealDay;
-
     @ApiModelProperty(value = "아파트 면적")
     private String area;
 
     @ApiModelProperty(value = "아파트 층")
     private String floor;
-
-    @ApiModelProperty(value = "시 or 도")
-    private String sidoName;
-
-    @ApiModelProperty(value = "구 or 군")
-    private String gugunName;
-
-    @ApiModelProperty(value = "동")
-    private String dongName;
 }
