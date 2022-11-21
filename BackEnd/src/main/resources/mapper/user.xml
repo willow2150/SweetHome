@@ -50,7 +50,7 @@
 
 
     <select id="selectUserById" parameterType="string" resultMap="User">
-        SELECT user_id, user_name, user_address, user_email, join_date
+        SELECT user_id, user_name, user_address, user_email, join_date, type
         FROM user
         WHERE user_id = #{userId}
     </select>

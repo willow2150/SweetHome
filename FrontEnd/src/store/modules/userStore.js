@@ -47,6 +47,17 @@ async function changeprofile(user, success, fail) {
   await api.put(`/user/change`, JSON.stringify(user)).then(success).catch(fail);
 }
 
+async function deleteuser(userid, success, fail) {
+  await api
+    .delete(`/user/delete`, {
+      data: {
+        userId: userid,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
 const userStore = {
   namespaced: true,
   state: {
@@ -237,6 +248,25 @@ const userStore = {
           if (data === "success") {
             alert("회원정보 수정 완료!");
             commit("SET_USER_INFO", user);
+          } else {
+            console.log("실패!!!!");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    async deleteUser({ commit }, userid) {
+      await deleteuser(
+        userid,
+        ({ data }) => {
+          if (data === "success") {
+            // commit("SET_IS_LOGIN", false);
+            // commit("SET_USER_INFO", null);
+            // commit("SET_IS_VALID_TOKEN", false);
+            alert("회원탈퇴 완료!");
           } else {
             console.log("실패!!!!");
           }

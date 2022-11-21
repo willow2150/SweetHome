@@ -82,7 +82,9 @@
               >
             </div>
             <div class="button-container mr-1">
-              <span class="btn btn-danger btn-round btn-lg">탈퇴</span>
+              <span class="btn btn-danger btn-round btn-lg" @click="deleteUse"
+                >탈퇴</span
+              >
             </div>
             <div class="button-container mr-1">
               <router-link to="/profile">
@@ -122,11 +124,16 @@ export default {
     ...mapState(userStore, ["userInfo"]),
   },
   methods: {
-    ...mapActions(userStore, ["changeProfile"]),
+    ...mapActions(userStore, ["changeProfile", "deleteUser"]),
     async changePro() {
       this.user.userId = this.userInfo.userId;
       await this.changeProfile(this.user);
       this.$router.push("/profile");
+    },
+
+    async deleteUse() {
+      await this.deleteUser(this.userInfo.userId);
+      this.$router.replace("/");
     },
   },
 };
