@@ -72,7 +72,7 @@ public class SwaggerConfiguration {
 
     public Docket getDocket(String groupName, Predicate<String> predicate) {
         return new Docket(DocumentationType.SWAGGER_2).groupName(groupName).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.sweethome.*.controller")).paths(predicate)
+                .apis(RequestHandlerSelectors.basePackage("")).paths(predicate)
                 .apis(RequestHandlerSelectors.any()).build();
     }
 
