@@ -32,6 +32,10 @@ async function logout(userid, success, fail) {
     .catch(fail);
 }
 
+async function regist(user, success, fail) {
+  await api.post(`/user/join`, JSON.stringify(user)).then(success).catch(fail);
+}
+
 const userStore = {
   namespaced: true,
   state: {
@@ -162,6 +166,7 @@ const userStore = {
         }
       );
     },
+
     async userLogout({ commit }, userid) {
       await logout(
         userid,
@@ -171,6 +176,23 @@ const userStore = {
             commit("SET_IS_LOGIN", false);
             commit("SET_USER_INFO", null);
             commit("SET_IS_VALID_TOKEN", false);
+          } else {
+            console.log("유저 정보 없음!!!!");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    async userRegist({ commit }, userid) {
+      await regist(
+        userid,
+        ({ data }) => {
+          console.log(data);
+          if (data === "success") {
+            console.log("회원가입성공!");
           } else {
             console.log("유저 정보 없음!!!!");
           }
