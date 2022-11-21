@@ -7,19 +7,29 @@ async function login(user, success, fail) {
   await api.post(`/user/login`, JSON.stringify(user)).then(success).catch(fail);
 }
 
-// async function findById(userid, success, fail) {
-//   api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
-//   await api.get(`/user/info/${userid}`).then(success).catch(fail);
-// }
+async function findById(userid, success, fail) {
+  api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+  // console.log(userid);
+  await api
+    .post(`/user/detail`, JSON.stringify(userid))
+    .then(success)
+    .catch(fail);
+}
 
-// async function tokenRegeneration(user, success, fail) {
-//   api.defaults.headers["refresh-token"] =
-//     sessionStorage.getItem("refresh-token"); //axios header에 refresh-token 셋팅
-//   await api.post(`/user/refresh`, user).then(success).catch(fail);
-// }
+async function tokenRegeneration(user, success, fail) {
+  api.defaults.headers["refresh-token"] =
+    sessionStorage.getItem("refresh-token"); //axios header에 refresh-token 셋팅
+  await api.post(`/user/reissue`, user).then(success).catch(fail);
+}
 
 async function logout(userid, success, fail) {
-  await api.get(`/user/logout/${userid}`).then(success).catch(fail);
+  const temp = {
+    userId: userid,
+  };
+  await api
+    .post(`/user/logout`, JSON.stringify(temp))
+    .then(success)
+    .catch(fail);
 }
 
 const userStore = {
@@ -40,6 +50,7 @@ const userStore = {
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
+      console.log(isLogin);
       state.isLogin = isLogin;
     },
     SET_IS_LOGIN_ERROR: (state, isLoginError) => {
@@ -62,11 +73,11 @@ const userStore = {
           if (data.message === "success") {
             let accessToken = data["access-token"];
             let refreshToken = data["refresh-token"];
-            console.log(
-              "login success token created!!!! >> ",
-              accessToken,
-              refreshToken
-            );
+            // console.log(
+            //   "login success token created!!!! >> ",
+            //   accessToken,
+            //   refreshToken
+            // );
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
             commit("SET_IS_VALID_TOKEN", true);
@@ -83,29 +94,30 @@ const userStore = {
         }
       );
     },
-    // async getUserInfo({ commit, dispatch }, token) {
-    //   let decodeToken = jwtDecode(token);
-    //   // console.log("2. getUserInfo() decodeToken :: ", decodeToken);
-    //   await findById(
-    //     decodeToken.userid,
-    //     ({ data }) => {
-    //       if (data.message === "success") {
-    //         commit("SET_USER_INFO", data.userInfo);
-    //         // console.log("3. getUserInfo data >> ", data);
-    //       } else {
-    //         console.log("유저 정보 없음!!!!");
-    //       }
-    //     },
-    //     async (error) => {
-    //       console.log(
-    //         "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
-    //         error.response.status
-    //       );
-    //       commit("SET_IS_VALID_TOKEN", false);
-    //       await dispatch("tokenRegeneration");
-    //     }
-    //   );
-    // },
+    async getUserInfo({ commit, dispatch }, token) {
+      let decodeToken = jwtDecode(token);
+      // console.log("2. getUserInfo() decodeToken :: ", decodeToken);
+      await findById(
+        decodeToken,
+        ({ data }) => {
+          if (data.message === "success") {
+            console.log(data.user);
+            commit("SET_USER_INFO", data.user);
+            // console.log("3. getUserInfo data >> ", data);
+          } else {
+            console.log("유저 정보 없음!!!!");
+          }
+        },
+        async (error) => {
+          console.log(
+            "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
+            error.response.status
+          );
+          commit("SET_IS_VALID_TOKEN", false);
+          await dispatch("tokenRegeneration");
+        }
+      );
+    },
     async tokenRegeneration({ commit, state }) {
       console.log(
         "토큰 재발급 >> 기존 토큰 정보 : {}",
@@ -154,7 +166,8 @@ const userStore = {
       await logout(
         userid,
         ({ data }) => {
-          if (data.message === "success") {
+          console.log(data);
+          if (data === "success") {
             commit("SET_IS_LOGIN", false);
             commit("SET_USER_INFO", null);
             commit("SET_IS_VALID_TOKEN", false);

@@ -6,8 +6,8 @@
         <div class="photo-container">
           <img src="" alt="" />
         </div>
-        <h3 class="title">킴사피</h3>
-        <p class="email">google@google.com</p>
+        <h3 class="title">{{ userInfo.userName }}</h3>
+        <p class="email">{{ userInfo.userEmail }}</p>
         <div class="content">
           <div class="social-description">
             <h2>2</h2>
@@ -41,10 +41,18 @@
   </div>
 </template>
 <script>
+import { mapState, mapGetters, mapActions } from "vuex";
+
+const userStore = "userStore";
+
 export default {
   name: "profile",
   bodyClass: "profile-page",
   components: {},
+  computed: {
+    ...mapState(userStore, ["isLogin", "isLoginError", "userInfo"]),
+    ...mapGetters(userStore, ["checkUserInfo"]),
+  },
 };
 </script>
 <style></style>

@@ -9,7 +9,7 @@
             <span class="h5">ID</span>
           </div>
           <div class="col-lg-4" style="text-align: center; padding-top: 19px">
-            <fg-input class="input-lg" placeholder="아이디"> </fg-input>
+            <fg-input class="input-lg" placeholder=""> </fg-input>
           </div>
         </div>
         <div
