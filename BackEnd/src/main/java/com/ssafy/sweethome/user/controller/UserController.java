@@ -314,16 +314,12 @@ public class UserController {
     @ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴한다.", response = String.class)
     @DeleteMapping("/delete")
     public ResponseEntity<String> withdrawUser(
-            @RequestBody @ApiParam(value = "탈퇴할 회원의 아이디와 비밀번호", required = true) User user) {
+            @RequestBody @ApiParam(value = "탈퇴할 회원의 아이디", required = true) User user) {
         String message;
         HttpStatus status;
         log.debug("User withdrawal");
         try {
-            User loginUser = userService.findUserIdAndUserPwdAndType(user);
-            if (loginUser != null
-                    && loginUser.getUserId().equals(user.getUserId())
-                    && BCrypt.checkpw(user.getUserPwd(), loginUser.getUserPwd())
-                    && userService.deleteUser(user)) {
+            if (userService.deleteUser(user)) {
                 log.debug("User withdrawal success: {}", user.getUserId());
                 status = HttpStatus.OK;
                 message = SUCCESS;
