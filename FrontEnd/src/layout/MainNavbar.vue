@@ -39,11 +39,16 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="" target="/">
+        <div class="nav-link" v-if="userInfo">
           <router-link to="/housedeal">
             <p>아파트 매물 조회</p>
           </router-link>
-        </a>
+        </div>
+        <div class="nav-link" v-else @click="alertLogin">
+          <router-link to="/login">
+            <p>아파트 매물 조회</p>
+          </router-link>
+        </div>
       </li>
       <drop-down
         tag="li"
@@ -64,11 +69,14 @@
         icon="now-ui-icons users_circle-08"
         class="nav-item"
       >
-        <nav-link to="/profile">
+        <nav-link to="/profile" v-if="userInfo">
+          <i class="now-ui-icons users_single-02"></i> 내 프로필
+        </nav-link>
+        <nav-link to="/login" v-else @click.native="alertLogin">
           <i class="now-ui-icons users_single-02"></i> 내 프로필
         </nav-link>
         <nav-link to="">
-          <i class="now-ui-icons ui-2_favourite-28"></i> 내 관심지역
+          <i class="now-ui-icons ui-2_favourite-28"></i> 미정
         </nav-link>
       </drop-down>
 
@@ -171,6 +179,9 @@ export default {
         console.log("유저 정보 없음!!!!");
       }
       if (this.$route.path != "/") this.$router.push("/");
+    },
+    alertLogin() {
+      alert("로그인 후 이용가능한 페이지입니다!");
     },
   },
 };

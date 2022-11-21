@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState } from "vuex";
 
 const userStore = "userStore";
 
@@ -50,8 +50,7 @@ export default {
   bodyClass: "profile-page",
   components: {},
   computed: {
-    ...mapState(userStore, ["isLogin", "isLoginError", "userInfo"]),
-    ...mapGetters(userStore, ["checkUserInfo"]),
+    ...mapState(userStore, ["userInfo"]),
   },
 };
 </script>

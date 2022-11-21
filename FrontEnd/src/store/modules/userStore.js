@@ -36,6 +36,28 @@ async function regist(user, success, fail) {
   await api.post(`/user/join`, JSON.stringify(user)).then(success).catch(fail);
 }
 
+async function changepassword(user, success, fail) {
+  await api
+    .put(`/user/change/password`, JSON.stringify(user))
+    .then(success)
+    .catch(fail);
+}
+
+async function changeprofile(user, success, fail) {
+  await api.put(`/user/change`, JSON.stringify(user)).then(success).catch(fail);
+}
+
+async function deleteuser(userid, success, fail) {
+  await api
+    .delete(`/user/delete`, {
+      data: {
+        userId: userid,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
 const userStore = {
   namespaced: true,
   state: {
@@ -54,7 +76,6 @@ const userStore = {
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
-      console.log(isLogin);
       state.isLogin = isLogin;
     },
     SET_IS_LOGIN_ERROR: (state, isLoginError) => {
@@ -73,7 +94,6 @@ const userStore = {
       await login(
         user,
         ({ data }) => {
-          console.log(data);
           if (data.message === "success") {
             let accessToken = data["access-token"];
             let refreshToken = data["refresh-token"];
@@ -91,6 +111,7 @@ const userStore = {
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_LOGIN_ERROR", true);
             commit("SET_IS_VALID_TOKEN", false);
+            alert("아이디, 비밀번호를 확인하세요!");
           }
         },
         (error) => {
@@ -105,7 +126,6 @@ const userStore = {
         decodeToken,
         ({ data }) => {
           if (data.message === "success") {
-            console.log(data.user);
             commit("SET_USER_INFO", data.user);
             // console.log("3. getUserInfo data >> ", data);
           } else {
@@ -171,7 +191,6 @@ const userStore = {
       await logout(
         userid,
         ({ data }) => {
-          console.log(data);
           if (data === "success") {
             commit("SET_IS_LOGIN", false);
             commit("SET_USER_INFO", null);
@@ -186,15 +205,70 @@ const userStore = {
       );
     },
 
-    async userRegist({ commit }, userid) {
+    async userRegist({ commit }, user) {
       await regist(
-        userid,
+        user,
         ({ data }) => {
-          console.log(data);
+          // console.log(data);
           if (data === "success") {
             console.log("회원가입성공!");
           } else {
             console.log("유저 정보 없음!!!!");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    async changePassword({ commit }, user) {
+      console.log(user);
+      await changepassword(
+        user,
+        ({ data }) => {
+          console.log(data);
+          if (data === "success") {
+            alert("비밀번호 변경 완료!");
+          } else {
+            console.log("실패!!!!");
+          }
+        },
+        (error) => {
+          console.log(error);
+          alert("기존 비밀번호를 확인하세요!");
+        }
+      );
+    },
+
+    async changeProfile({ commit }, user) {
+      await changeprofile(
+        user,
+        ({ data }) => {
+          if (data === "success") {
+            alert("회원정보 수정 완료!");
+            commit("SET_USER_INFO", user);
+          } else {
+            console.log("실패!!!!");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    async deleteUser({ commit }, userid) {
+      await deleteuser(
+        userid,
+        ({ data }) => {
+          if (data === "success") {
+            // commit("SET_IS_LOGIN", false);
+            // commit("SET_USER_INFO", null);
+            // commit("SET_IS_VALID_TOKEN", false);
+            alert("회원탈퇴 완료!");
+          } else {
+            console.log("실패!!!!");
           }
         },
         (error) => {
