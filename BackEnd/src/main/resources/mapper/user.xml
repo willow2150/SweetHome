@@ -72,10 +72,19 @@
     <select id="selectUserListByCondition" parameterType="User" resultMap="User">
         SELECT user_id, user_name, user_address, user_email, type, join_date
         FROM user
-        WHERE user_id = #{userId}
-            OR user_name = #{userName}
-            OR user_address = #{userAddress}
-            OR user_email = #{userEmail}
+        WHERE 1 = 1
+        <if test="user_id != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="user_name != null">
+            AND user_name = #{userName}
+        </if>
+        <if test="user_address != null">
+            AND user_address = #{userAddress}
+        </if>
+        <if test="user_email != null">
+            AND user_email = #{userEmail}
+        </if>
     </select>
 
 

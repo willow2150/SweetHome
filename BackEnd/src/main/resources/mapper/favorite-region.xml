@@ -10,7 +10,7 @@
     </resultMap>
 
 
-    <select id="selectFavoriteRegionList" parameterType="string" resultMap="FavoriteRegion">
+    <select id="selectFavoriteRegionCodeList" parameterType="string" resultMap="FavoriteRegion">
         SELECT dongCode
         FROM favoriteregion
         WHERE user_id = #{userId}

@@ -105,19 +105,20 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.", response = Map.class)
-    @GetMapping("/search/{article_no}")
+    @GetMapping("/search/{articleNo}")
     public ResponseEntity<Map<String, Object>> findArticle(
-            @PathVariable("articleNo") @ApiParam(value = "조회할 게시글 번호", required = true) String articleNo) {
+            @PathVariable("articleNo") @ApiParam(value = "조회할 게시글 번호", required = true) int articleNo) {
         log.debug("Get article");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            Board board = boardService.getArticle(Integer.parseInt(articleNo));
+            Board board = boardService.getArticle(articleNo);
             if (board == null) {
                 log.debug("The article does not exist.");
                 status = HttpStatus.NO_CONTENT;
             } else {
-                boardService.updateHit(Integer.parseInt(articleNo));
+                boardService.updateHit(articleNo);
+                board.setHit(board.getHit() + 1);
                 log.debug("Acquisition of article success");
                 resultMap.put("board", board);
                 status = HttpStatus.OK;
@@ -132,14 +133,14 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.", response = String.class)
-    @DeleteMapping("/search/{article_no}")
+    @DeleteMapping("/search/{articleNo}")
     public ResponseEntity<Map<String, String>> deleteArticle(
-            @PathVariable("articleNo") @ApiParam(value = "제거할 게시글 번호", required = true) String articleNo) {
+            @PathVariable("articleNo") @ApiParam(value = "제거할 게시글 번호", required = true) int articleNo) {
         log.debug("Delete article");
         Map<String, String> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            if (boardService.deleteArticle(Integer.parseInt(articleNo))) {
+            if (boardService.deleteArticle(articleNo)) {
                 log.debug("Successfully deleted article");
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.OK;

@@ -21,17 +21,17 @@ public class JwtInterceptor implements HandlerInterceptor {
         this.jwtService = jwtService;
     }
 
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-//            throws Exception {
-//        final String token = request.getHeader(HEADER_AUTH);
-//
-//        if (token != null && jwtService.checkToken(token)) {
-//            log.info("valid token : {}", token);
-//            return true;
-//        } else {
-//            log.info("invalid token : {}", token);
-//            throw new UnAuthorizedException();
-//        }
-//    }
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        final String token = request.getHeader(HEADER_AUTH);
+
+        if (token != null && jwtService.checkToken(token)) {
+            log.info("valid token : {}", token);
+            return true;
+        } else {
+            log.info("invalid token : {}", token);
+            throw new UnAuthorizedException();
+        }
+    }
 }

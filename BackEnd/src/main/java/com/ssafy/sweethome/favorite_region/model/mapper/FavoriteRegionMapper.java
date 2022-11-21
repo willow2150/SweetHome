@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface FavoriteRegionMapper {
-    List<FavoriteRegion> selectFavoriteRegionList(String userId) throws SQLException;
+    List<FavoriteRegion> selectFavoriteRegionCodeList(String userId) throws SQLException;
 
     int deleteFavoriteRegion(FavoriteRegion favoriteRegion) throws SQLException;
 

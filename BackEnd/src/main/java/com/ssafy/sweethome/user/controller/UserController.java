@@ -180,7 +180,6 @@ public class UserController {
                 message = SUCCESS;
                 status = HttpStatus.OK;
             } else {
-                System.out.println("dupl");
                 // 중복 O
                 log.debug("ID not available: {}", userId);
                 message = FAIL;
@@ -260,11 +259,6 @@ public class UserController {
             User user = userService.findUserIdAndUserPwdAndType(
                     User.builder().userId(userId).build()
             );
-            System.out.println("############################");
-            System.out.println(userId);
-            System.out.println(oldUserPwd);
-            System.out.println(newUserPwd);
-            System.out.println(user);
             if (user != null && BCrypt.checkpw(oldUserPwd, user.getUserPwd())) {
                 user.setUserPwd(BCrypt.hashpw(newUserPwd, BCrypt.gensalt()));
                 if (userService.changeUserPwd(user)) {

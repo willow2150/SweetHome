@@ -17,8 +17,8 @@ public class FavoriteHousedealServiceImpl implements FavoriteHousedealService {
     }
 
     @Override
-    public List<FavoriteHousedeal> getFavoriteHousedealList(String userId) throws Exception {
-        return favoriteHousedealMapper.selectFavoriteHousedealList(userId);
+    public List<FavoriteHousedeal> getFavoriteHousedealNoList(String userId) throws Exception {
+        return favoriteHousedealMapper.selectFavoriteHousedealNoList(userId);
     }
 
     @Override
