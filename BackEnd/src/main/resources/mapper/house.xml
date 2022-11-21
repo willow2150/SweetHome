@@ -58,13 +58,13 @@
     <!-- 아파트 거래 조회(by 거래 고유 번호) -->
 
     <select id="selectHousedealByNo" parameterType="long" resultMap="Housedeal">
-        SELECT no AS dealNo, area, floor, dealYear, dealMonth, dealDay, houseCode
+        SELECT no AS dealNo, area, floor, dealYear, dealMonth, houseCode
         FROM housedeal
         WHERE no = #{no}
     </select>
 
     <select id="selectHouseinfoByCode" parameterType="long" resultMap="Houseinfo">
-        SELECT lat, lng, buildYear, roadName, roadNameBonbun, roadNameBubun, jibun, dongCode
+        SELECT lat, lng, buildYear, houseName, jibun, dongCode
         FROM houseinfo
         WHERE houseCode = #{houseCode}
     </select>

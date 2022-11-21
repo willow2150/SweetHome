@@ -32,6 +32,6 @@ public interface HouseMapper {
     Dongcode selectRegionByDongCode(String dongCode) throws SQLException;
     
     // 위도 및 경도로 조회
-    List<House> selectHouseListByLatAndLng(String lat, String lng) throws SQLException;
+//    List<House> selectHouseListByLatAndLng(String lat, String lng) throws SQLException;
 
 }
