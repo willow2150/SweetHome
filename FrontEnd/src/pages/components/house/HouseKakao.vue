@@ -1,16 +1,22 @@
 <template>
   <div>
+    <button @click="displayMarker">버튼</button>
     <div id="map">12</div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseKakao",
   components: {},
   data() {
     return {
       map: null,
+      markers: [],
     };
   },
   mounted() {
@@ -25,6 +31,9 @@ export default {
       document.head.appendChild(script);
     }
   },
+  computed: {
+    ...mapState(houseStore, ["houses"]),
+  },
   methods: {
     initMap() {
       const container = document.getElementById("map");
@@ -36,6 +45,46 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+    },
+
+    displayMarker() {
+      this.markers = [];
+
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker) => marker.setMap(null));
+      }
+      // console.log(this.houses);
+
+      this.houses.forEach((house) => {
+        this.markers.push([house.lat, house.lng]);
+      });
+
+      console.log(this.markers);
+
+      const positions = this.markers.map(
+        (position) => new kakao.maps.LatLng(...position)
+      );
+
+      console.log(positions);
+
+      if (positions.length > 0) {
+        this.markers = positions.map(
+          (position) =>
+            new kakao.maps.Marker({
+              map: this.map,
+              position,
+            })
+        );
+
+        const bounds = positions.reduce(
+          (bounds, latlng) => bounds.extend(latlng),
+          new kakao.maps.LatLngBounds()
+        );
+
+        console.log(bounds);
+
+        this.map.setBounds(bounds);
+      }
     },
   },
 };
