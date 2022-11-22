@@ -87,6 +87,8 @@ export default {
       this.address.gugunName = tempGun.options[tempGun.selectedIndex].text;
       if (tempDong.options[tempDong.selectedIndex].text != "선택하세요") {
         this.address.dongName = tempDong.options[tempDong.selectedIndex].text;
+      } else {
+        this.address.dongName = null;
       }
       // console.log(this.address);
 

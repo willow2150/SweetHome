@@ -109,6 +109,7 @@ const houseStore = {
     },
 
     async getHouseList({ commit }, address) {
+      console.log(address);
       await findApt(address, ({ data }) => {
         console.log(data.houseList);
         commit("SET_HOUSE_LIST", data.houseList);
