@@ -114,6 +114,7 @@ public class HouseController {
                             .dealMonth(housedeal.getDealMonth())
                             .area(housedeal.getArea())
                             .floor(housedeal.getFloor())
+                            .dealAmount(housedeal.getDealAmount())
                             .build()
             );
             log.debug("Apartment Search Success");

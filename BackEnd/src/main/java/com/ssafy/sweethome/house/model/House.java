@@ -29,6 +29,9 @@ public class House {
     @ApiModelProperty(value = "아파트 건축 연도")
     private int buildYear;
 
+    @ApiModelProperty(value = "거래 가격")
+    private String dealAmount;
+
     @ApiModelProperty(value = "경도")
     private String lng;
 
