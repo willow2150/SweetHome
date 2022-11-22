@@ -158,7 +158,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 목록 조건 검색", notes = "게시글 목록을 조건에 따라 조회한다.", response = Map.class)
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<Map<String, Object>> searchArticlesByCondition(
             @RequestBody @ApiParam(value = "게시글을 검색할 조건", required = true) Map<String, String> map) {
         log.debug("Get article list by condition");

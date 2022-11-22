@@ -7,7 +7,7 @@
     <!-- 아파트 거래 조회(By 거래 고유 번호) -->
 
     <select id="selectHousedealByNo" parameterType="long" resultType="Housedeal">
-        SELECT no AS dealNo, area, floor, dealYear, dealMonth, houseCode
+        SELECT no AS dealNo, area, floor, dealYear, dealMonth, houseCode, dealAmount
         FROM housedeal
         WHERE no = #{no}
     </select>
@@ -32,7 +32,7 @@
             <when test="houseName != null">
                 SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
                        tmp.buildYear, tmp.lng, tmp.lat,
-                       hd.dealYear, hd.dealMonth, hd.area, hd.floor
+                       hd.dealYear, hd.dealMonth, hd.area, hd.floor, hd.dealAmount
                 FROM (SELECT dc.dongCode, hi.houseName,
                              CONCAT(dc.sidoName, ' ', dc.gugunName, ' ', hi.dong, ' ', hi.jibun) AS address,
                              hi.buildYear, hi.lng, hi.lat, hi.houseCode
@@ -67,7 +67,7 @@
             <otherwise>
                 SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
                        tmp.buildYear, tmp.lng, tmp.lat,
-                       hd.dealYear, hd.dealMonth, hd.area, hd.floor
+                       hd.dealYear, hd.dealMonth, hd.area, hd.floor, hd.dealAmount
                 FROM (SELECT dc.dongCode, hi.houseName,
                              CONCAT(dc.sidoName, ' ', dc.gugunName, ' ', hi.dong, ' ', hi.jibun) AS address,
                              hi.buildYear, hi.lng, hi.lat, hi.houseCode
@@ -102,7 +102,7 @@
     <select id="selectHouseListByDongCode" parameterType="DongCode" resultType="House">
         SELECT hd.no AS dealNo, tmp.dongCode, tmp.houseName, tmp.address,
                tmp.buildYear, tmp.lng, tmp.lat,
-               hd.dealYear, hd.dealMonth, hd.area, hd.floor
+               hd.dealYear, hd.dealMonth, hd.area, hd.floor, hd.dealAmount
         FROM (
               SELECT hi.houseCode, hi.buildYear, hi.houseName, hi.lng, hi.lat, hi.dongCode,
                      CONCAT(#{sidoName}, ' ', #{gugunName}, ' ', hi.dong, ' ', hi.jibun) AS address
