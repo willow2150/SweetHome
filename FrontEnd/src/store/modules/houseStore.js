@@ -97,6 +97,7 @@ const houseStore = {
           console.log(error);
         });
     },
+
     getHouseList({ commit }, dongCode) {
       // vue cli enviroment variables 검색
       //.env.local file 생성.
@@ -122,6 +123,7 @@ const houseStore = {
           console.log(error);
         });
     },
+
     detailHouse({ commit }, house) {
       // 나중에 house.일련번호를 이용하여 API 호출
       // console.log(commit, house);

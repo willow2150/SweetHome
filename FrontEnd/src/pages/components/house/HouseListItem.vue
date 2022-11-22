@@ -1,5 +1,5 @@
 <template>
-  <div class="list-group list-group-flush overflow-auto h-50">
+  <div id="listcard" class="list-group list-group-flush overflow-auto h-50">
     <div class="list-group-item list-group-item-action">
       <h3>{{ house.아파트 }}</h3>
       거래금액 : {{ house.거래금액 }} 만원<br />
@@ -17,4 +17,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#listcard {
+  cursor: pointer;
+}
+</style>

@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["houses"]),
+    ...mapState(houseStore, ["houses", "house"]),
     // houses() {
     //   return this.$store.state.houses;
     // },
