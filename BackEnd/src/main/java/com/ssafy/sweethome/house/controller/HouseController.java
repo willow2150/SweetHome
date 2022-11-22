@@ -34,7 +34,7 @@ public class HouseController {
     }
 
     @ApiOperation(value = "아파트 거래 목록 조회(주소 혹은 아파트 이름)", notes = "주소 혹은 아파트 이름 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ResponseEntity<Map<String, Object>> searchHouseListByCondition(
             @RequestBody @ApiParam(value = "주소 혹은 아파트 이름", required = true) Map<String, String> map) {
         log.debug("Apartment transaction listing lookup: by address or apartment name");
