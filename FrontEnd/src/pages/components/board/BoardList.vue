@@ -7,19 +7,11 @@
             <b-icon icon="journals"></b-icon>
             <span> Q&A</span>
           </div>
-          <b-button @click="moveWrite" class="btn-neutral text-info"
-            >글쓰기</b-button
-          >
+          <b-button @click="moveWrite" class="btn-neutral text-info">글쓰기</b-button>
         </div>
         <b-row>
           <b-col>
-            <b-table
-              striped
-              hover
-              :items="articles"
-              :fields="fields"
-              @row-clicked="viewArticle"
-            >
+            <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
               <template #cell(subject)="data">
                 <router-link
                   :to="{
@@ -45,29 +37,7 @@ export default {
   name: "BoardList",
   data() {
     return {
-      articles: [
-        {
-          articleno: "1",
-          subject: "안녕",
-          userid: "정상기",
-          regtime: "11.11.11",
-          hit: "1",
-        },
-        {
-          articleno: "2",
-          subject: "나는",
-          userid: "정상기",
-          regtime: "11.11.11",
-          hit: "1",
-        },
-        {
-          articleno: "3",
-          subject: "누구",
-          userid: "정상기",
-          regtime: "11.11.11",
-          hit: "1",
-        },
-      ],
+      articles: [],
       fields: [
         { key: "articleno", label: "글번호", tdClass: "tdClass" },
         { key: "subject", label: "제목", tdClass: "tdSubject" },
@@ -78,11 +48,29 @@ export default {
     };
   },
   created() {
-    http.get(`/board/list`).then(({ data }) => {
-      this.articles = data;
-    });
+    // http.get(`/board/list`).then(({ data }) => {
+    //   this.articles = data;
+    // });
+    // listArticle(
+    //   { pg: 1, spp: 20, key: null, word: null },
+    //   ({ data }) => {
+    //     this.articles = data;
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
+  },
+  computed: {
+    ...mapState(articles, ["articles"]),
   },
   methods: {
+    // ...mapActions(?, ["?", "?"]),
+    // async changePro() {
+    //   this.user.userId = this.userInfo.userId;
+    //   await this.changeProfile(this.user);
+    //   this.$router.push("/profile");
+    // },
     moveWrite() {
       this.$router.push({ name: "boardwrite" });
     },
