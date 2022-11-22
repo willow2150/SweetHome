@@ -133,7 +133,7 @@ public class NoticeController {
     }
 
     @ApiOperation(value = "공지사항 글 삭제", notes = "공지사항 글을 삭제한다.", response = String.class)
-    @DeleteMapping("/search/{article_no}")
+    @DeleteMapping("/delete/{article_no}")
     public ResponseEntity<Map<String, String>> deleteArticle(
             @PathVariable("article_no") @ApiParam(value = "제거할 공지사항 글 번호", required = true) int articleNo) {
         log.debug("Delete article(notice)");

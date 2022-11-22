@@ -55,7 +55,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 작성", notes = "댓글을 작성한다.", response = String.class)
-    @PostMapping()
+    @PostMapping("/write")
     public ResponseEntity<Map<String, String>> writeComment(
             @RequestBody @ApiParam(value = "작성할 댓글 정보", required = true) Comment comment) {
         log.debug("Write a comment");
@@ -80,7 +80,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 수정", notes = "댓글을 수정한다.", response = String.class)
-    @PutMapping
+    @PutMapping("/modify")
     public ResponseEntity<Map<String, String>> modifyComment(
             @RequestBody @ApiParam(value = "수정할 댓글 정보", required = true) Comment comment) {
         log.debug("Edit your comment");
@@ -105,7 +105,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.", response = String.class)
-    @DeleteMapping("/{comment_id}")
+    @DeleteMapping("/delete/{comment_id}")
     public ResponseEntity<Map<String, String>> deleteComment(
             @PathVariable("comment_id") @ApiParam(value = "삭제할 댓글의 고유 번호", required = true) int commentId) {
         log.debug("Delete comments");

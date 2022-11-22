@@ -133,7 +133,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.", response = String.class)
-    @DeleteMapping("/search/{articleNo}")
+    @DeleteMapping("/delete/{articleNo}")
     public ResponseEntity<Map<String, String>> deleteArticle(
             @PathVariable("articleNo") @ApiParam(value = "제거할 게시글 번호", required = true) int articleNo) {
         log.debug("Delete article");
