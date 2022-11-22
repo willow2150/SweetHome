@@ -4,6 +4,7 @@
       <b-row class="mb-3" style="">
         <b-col class="sm-3 pt-3">
           <b-form-select
+            id="si"
             v-model="sidoCode"
             :options="sidos"
             @change="gugunList"
@@ -11,13 +12,18 @@
         </b-col>
         <b-col class="sm-3 pt-3">
           <b-form-select
+            id="gun"
             v-model="gugunCode"
             :options="guguns"
             @change="dongList"
           ></b-form-select>
         </b-col>
         <b-col class="sm-3 pt-3">
-          <b-form-select v-model="dongCode" :options="dongs"></b-form-select>
+          <b-form-select
+            id="dong"
+            v-model="dongCode"
+            :options="dongs"
+          ></b-form-select>
         </b-col>
         <b-col class="sm-3 pt-3 px-0">
           <fg-input placeholder="아파트 이름을 입력하세요"></fg-input>
@@ -52,6 +58,11 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      address: {
+        sidoName: null,
+        gugunName: null,
+        dongName: null,
+      },
     };
   },
   computed: {
@@ -68,6 +79,19 @@ export default {
     this.getSido();
   },
   methods: {
+    searchApt() {
+      const tempSi = document.getElementById("si");
+      const tempGun = document.getElementById("gun");
+      const tempDong = document.getElementById("dong");
+      this.address.sidoName = tempSi.options[tempSi.selectedIndex].text;
+      this.address.gugunName = tempGun.options[tempGun.selectedIndex].text;
+      if (tempDong.options[tempDong.selectedIndex].text != "선택하세요") {
+        this.address.dongName = tempDong.options[tempDong.selectedIndex].text;
+      }
+      // console.log(this.address);
+
+      if (this.gugunCode) this.getHouseList(this.address);
+    },
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -98,9 +122,6 @@ export default {
       this.CLEAR_APT_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
-    },
-    searchApt() {
-      if (this.gugunCode) this.getHouseList(this.gugunCode.slice(0, 5));
     },
   },
 };

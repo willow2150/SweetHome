@@ -1,4 +1,14 @@
 import axios from "axios";
+import { apiInstance } from "../../api/http.js";
+
+const api = apiInstance();
+
+async function findApt(address, success, fail) {
+  await api
+    .post(`/house/list`, JSON.stringify(address))
+    .then(success)
+    .catch(fail);
+}
 
 const houseStore = {
   namespaced: true,
@@ -98,31 +108,49 @@ const houseStore = {
         });
     },
 
-    getHouseList({ commit }, dongCode) {
-      // vue cli enviroment variables 검색
-      //.env.local file 생성.
-      // 반드시 VUE_APP으로 시작해야 한다.
-      // const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
-      const SERVICE_KEY =
-        "JtSqZnn8Q7MwCYdiQJ0gXr0CWYYDNs00kqFJ9uHx4E2Ei%2FGzyXCYZCY0j1TKwkAx6ICVA8ffpaogI%2FrQvKpmSA%3D%3D";
-      const SERVICE_URL =
-        "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
-      const params = {
-        serviceKey: decodeURIComponent(SERVICE_KEY),
-        LAWD_CD: dongCode,
-        DEAL_YMD: "202207",
-      };
-      console.log(dongCode);
-      axios
-        .get(SERVICE_URL, { params })
-        .then(({ data }) => {
-          console.log(data);
-          commit("SET_HOUSE_LIST", data.response.body.items.item);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    async getHouseList({ commit }, address) {
+      await findApt(address, ({ data }) => {
+        console.log(data.houseList);
+        commit("SET_HOUSE_LIST", data.houseList);
+      }).catch((error) => {
+        console.log(error);
+      });
+
+      // await api
+      //   .post("/house/list", JSON.stringify(address))
+      //   .then(({ data }) => {
+      //     console.log(data);
+      //     commit("SET_HOUSE_LIST", data.response.body.items.item);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
+    // getHouseList({ commit }, dongCode) {
+    //   // vue cli enviroment variables 검색
+    //   //.env.local file 생성.
+    //   // 반드시 VUE_APP으로 시작해야 한다.
+    //   // const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
+    //   const SERVICE_KEY =
+    //     "JtSqZnn8Q7MwCYdiQJ0gXr0CWYYDNs00kqFJ9uHx4E2Ei%2FGzyXCYZCY0j1TKwkAx6ICVA8ffpaogI%2FrQvKpmSA%3D%3D";
+    //   const SERVICE_URL =
+    //     "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
+    //   const params = {
+    //     serviceKey: decodeURIComponent(SERVICE_KEY),
+    //     LAWD_CD: dongCode,
+    //     DEAL_YMD: "202207",
+    //   };
+    //   console.log(dongCode);
+    //   axios
+    //     .get(SERVICE_URL, { params })
+    //     .then(({ data }) => {
+    //       console.log(data);
+    //       commit("SET_HOUSE_LIST", data.response.body.items.item);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
 
     detailHouse({ commit }, house) {
       // 나중에 house.일련번호를 이용하여 API 호출

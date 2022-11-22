@@ -1,5 +1,5 @@
-import { apiInstance } from "../../api/http.js";
 import jwtDecode from "jwt-decode";
+import { apiInstance } from "../../api/http.js";
 
 const api = apiInstance();
 
