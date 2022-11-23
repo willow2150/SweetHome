@@ -2,7 +2,7 @@
   <div class="page-header clear-filter" filter-color="white">
     <div class="container" style="max-width: 115rem">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 pb-0">
           <HouseList />
           <HouseKakao />
         </div>

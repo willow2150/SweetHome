@@ -1,22 +1,36 @@
 <template>
   <div>
     <div id="map"></div>
+
+    <!-- Classic Modal -->
+    <modal :show.sync="modals.classic" id="houseInfoModal">
+      <div class="">
+        <h5 style="color: black">HIHIHIHIHI</h5>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { Modal } from "@/components";
+import img from "../../../../public/img/home7.png";
 
 const houseStore = "houseStore";
 
 export default {
   name: "HouseKakao",
-  components: {},
+  components: {
+    Modal,
+  },
   data() {
     return {
+      modals: {
+        classic: true,
+        mini: false,
+      },
       map: null,
       markers: [],
-      prevCide: 0,
     };
   },
   mounted() {
@@ -72,11 +86,9 @@ export default {
             // console.log("지역 명칭 : " + result[0].address_name);
             // console.log("행정구역 코드 : " + result[0].code);
             const params = result[0].code.slice(0, 5);
-            if (this.prevCode !== params) {
-              this.CLEAR_APT_LISTS();
-              this.getAptList(params);
-              this.prevCode = params;
-            }
+            this.CLEAR_APT_LISTS();
+            this.getAptList(params);
+            this.prevCode = params;
           }
         };
 
@@ -97,31 +109,39 @@ export default {
         });
       }
 
-      // console.log(this.aptlist);
-      const positions = this.markers.map(
-        (position) => new kakao.maps.LatLng(...position)
+      const imageSrc = img, // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(35, 35), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+      var markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imageOption
       );
 
-      console.log(this.aptlist.length);
+      this.markers = this.aptlist.map(
+        (apt) =>
+          new kakao.maps.Marker({
+            map: this.map,
+            position: new kakao.maps.LatLng(apt.lat, apt.lng),
+            title: "1",
+            image: markerImage,
+          })
+      );
 
-      // this.aptlist.forEach((apt) => {
-      //   const latlng = new kakao.maps.LatLng(apt.lat, apt.lng);
-      //   var marker = new kakao.maps.Marker({
-      //     map: this.map, // 마커를 표시할 지도
-      //     position: latlng, // 마커를 표시할 위치
-      //     title: apt.houseName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-      //   });
-      // });
+      this.markers.forEach((marker) => {
+        // console.log(marker);
+        this.displayInfo(marker);
+      });
+    },
 
-      if (positions.length > 0) {
-        this.markers = positions.map(
-          (position) =>
-            new kakao.maps.Marker({
-              map: this.map,
-              position: position,
-            })
-        );
-      }
+    displayInfo(marker) {
+      // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, "click", () => {
+        console.log(this.modals);
+        // 마커 위에 인포윈도우를 표시합니다
+        this.modals.classic = true;
+      });
     },
   },
 };
@@ -130,6 +150,10 @@ export default {
 <style>
 #map {
   width: 100%;
-  height: 55rem;
+  height: 50rem;
+}
+
+#houseInfoModal {
+  position: absolute;
 }
 </style>
