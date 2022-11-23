@@ -21,6 +21,12 @@ public interface HouseMapper {
 
     // 거래 고유 번호로 조회
     Housedeal selectHousedealByNo(long no) throws SQLException;
+
     Houseinfo selectHouseinfoByCode(long houseCode) throws SQLException;
+
     Dongcode selectRegionByDongCode(String dongCode) throws SQLException;
+
+    List<Houseinfo> selectHouseinfoListBySidoGugunCode(String sidoGugunCode) throws SQLException;
+
+    List<Housedeal> selectHousedealListByHouseCode(long houseCode) throws SQLException;
 }

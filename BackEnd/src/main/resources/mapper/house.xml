@@ -121,4 +121,19 @@
              housedeal AS hd
              ON tmp.houseCode = hd.houseCode
     </select>
+
+
+    <select id="selectHouseinfoListBySidoGugunCode" parameterType="string" resultType="Houseinfo">
+        SELECT houseName, houseCode, buildYear, jibun, lat, lng
+        FROM houseinfo
+        Where sigunguCode = #{sidoGugunCode}
+    </select>
+
+
+    <select id="selectHousedealListByHouseCode" parameterType="long" resultType="Housedeal">
+        SELECT dealAmount, dealYear, dealMonth, dealDay, area, floor
+        FROM housedeal
+        WHERE houseCode = #{houseCode}
+    </select>
+
 </mapper>

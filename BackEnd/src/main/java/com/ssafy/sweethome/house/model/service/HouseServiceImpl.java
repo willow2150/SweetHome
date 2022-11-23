@@ -44,4 +44,14 @@ public class HouseServiceImpl implements HouseService {
     public Dongcode searchRegionByDongCode(String dongCode) throws Exception {
         return houseMapper.selectRegionByDongCode(dongCode);
     }
+
+    @Override
+    public List<Houseinfo> searchHouseinfoListBySidoGugunCode(String sidoGugunCode) throws Exception {
+        return houseMapper.selectHouseinfoListBySidoGugunCode(sidoGugunCode);
+    }
+
+    @Override
+    public List<Housedeal> searchHousedealListByHouseCode(long houseCode) throws Exception {
+        return houseMapper.selectHousedealListByHouseCode(houseCode);
+    }
 }
