@@ -103,7 +103,7 @@ export default new Router({
           component: () => import("@/pages/components/board/BoardWrite"),
         },
         {
-          path: "view/:articleno",
+          path: "view/:articleNo",
           name: "boardview",
           component: () => import("@/pages/components/board/BoardView"),
         },
@@ -113,7 +113,7 @@ export default new Router({
           component: () => import("@/pages/components/board/BoardModify"),
         },
         {
-          path: "delete/:articleno",
+          path: "delete/:articleNo",
           name: "boarddelete",
           component: () => import("@/pages/components/board/BoardDelete"),
         },

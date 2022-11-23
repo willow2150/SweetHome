@@ -16,7 +16,7 @@
                 <router-link
                   :to="{
                     name: 'boardview',
-                    params: { articleno: data.item.articleno },
+                    params: { articleNo: data.item.articleNo },
                   }"
                 >
                   {{ data.item.subject }}
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import http from "@/api/http";
+import { getArticleList } from "@/api/board";
 
 export default {
   name: "BoardList",
@@ -39,45 +39,45 @@ export default {
     return {
       articles: [],
       fields: [
-        { key: "articleno", label: "글번호", tdClass: "tdClass" },
+        { key: "articleNo", label: "글번호", tdClass: "tdClass" },
         { key: "subject", label: "제목", tdClass: "tdSubject" },
-        { key: "userid", label: "작성자", tdClass: "tdClass" },
-        { key: "regtime", label: "작성일", tdClass: "tdClass" },
+        { key: "userId", label: "작성자", tdClass: "tdClass" },
+        { key: "regTime", label: "작성일", tdClass: "tdClass" },
         { key: "hit", label: "조회수", tdClass: "tdClass" },
       ],
     };
   },
   created() {
-    // http.get(`/board/list`).then(({ data }) => {
-    //   this.articles = data;
-    // });
-    // listArticle(
-    //   { pg: 1, spp: 20, key: null, word: null },
-    //   ({ data }) => {
-    //     this.articles = data;
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+    let param = {
+      pg: 1,
+      spp: 20,
+      key: null,
+      word: null,
+    };
+    getArticleList(
+      param,
+      ({ data }) => {
+        this.articles = data.boardList;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
-  computed: {
-    ...mapState(articles, ["articles"]),
-  },
+  computed: {},
   methods: {
-    // ...mapActions(?, ["?", "?"]),
-    // async changePro() {
-    //   this.user.userId = this.userInfo.userId;
-    //   await this.changeProfile(this.user);
-    //   this.$router.push("/profile");
-    // },
+    async changePro() {
+      this.user.userId = this.userInfo.userId;
+      await this.changeProfile(this.user);
+      this.$router.push("/profile");
+    },
     moveWrite() {
       this.$router.push({ name: "boardwrite" });
     },
     viewArticle(article) {
       this.$router.push({
         name: "boardview",
-        params: { articleno: article.articleno },
+        params: { articleNo: article.articleNo },
       });
     },
   },

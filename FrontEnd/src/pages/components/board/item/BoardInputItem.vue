@@ -2,11 +2,11 @@
   <b-row class="mb-1">
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userid-group" label="작성자:" label-for="userid" description="작성자를 입력하세요.">
+        <b-form-group id="userId-group" label="글쓴이:" label-for="userId" description="작성자를 입력하세요.">
           <b-form-input
-            id="userid"
+            id="userId"
             :disabled="isUserid"
-            v-model="article.userid"
+            v-model="article.userId"
             type="text"
             required
             placeholder="작성자 입력"
@@ -33,9 +33,15 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-if="this.type === 'register'">글작성</b-button>
-        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-else>글수정</b-button>
-        <b-button type="reset" variant="danger" class="btn-neutral text-info">초기화</b-button>
+        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-if="this.type === 'register'"
+          >글작성</b-button
+        >
+        <b-button type="reset" variant="danger" class="btn-neutral text-info" v-if="this.type === 'register'">
+          초기화</b-button
+        >
+        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-else-if="this.type === 'modify'"
+          >글 수정</b-button
+        >
       </b-form>
     </b-col>
   </b-row>
@@ -43,14 +49,15 @@
 
 <script>
 import http from "@/api/http";
+import { getArticle } from "@/api/board";
 
 export default {
   name: "BoardInputItem",
   data() {
     return {
       article: {
-        articleno: 0,
-        userid: "",
+        articleNo: 0,
+        userId: "",
         subject: "",
         content: "",
       },
@@ -61,16 +68,24 @@ export default {
     type: { type: String },
   },
   created() {
+    let param = this.$route.params.articleNo;
+    getArticle(
+      param,
+      ({ data }) => {
+        this.article = data.board;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.article.articleNo = data.article.articleNo;
+    this.article.userId = data.article.userId;
+    this.article = data;
     if (this.type === "modify") {
-      http.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
-        this.article = data;
-      });
-      this.isUserid = true;
+      this.article.subject = data.article.subject;
+      this.article.content = data.article.content;
     }
+    this.isUserid = true;
   },
   methods: {
     onSubmit(event) {
@@ -78,7 +93,7 @@ export default {
 
       let err = true;
       let msg = "";
-      !this.article.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
+      !this.article.userId && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userId.focus());
       err && !this.article.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
       err && !this.article.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
 
@@ -87,7 +102,7 @@ export default {
     },
     onReset(event) {
       event.preventDefault();
-      this.article.articleno = 0;
+      this.article.articleNo = 0;
       this.article.subject = "";
       this.article.content = "";
       this.moveList();
@@ -95,33 +110,33 @@ export default {
     registArticle() {
       http
         .post(`/board`, {
-          userid: this.article.userid,
+          userId: this.article.userId,
           subject: this.article.subject,
           content: this.article.content,
         })
         .then(({ data }) => {
-          let msg = "등록 처리시 문제가 발생했습니다.";
+          let message = "등록 처리시 문제가 발생했습니다.";
           if (data === "success") {
-            msg = "등록이 완료되었습니다.";
+            message = "등록이 완료되었습니다.";
           }
-          alert(msg);
+          alert(message);
           this.moveList();
         });
     },
     modifyArticle() {
       http
         .put(`/board`, {
-          articleno: this.article.articleno,
-          userid: this.article.userid,
+          articleno: this.article.articleNo,
+          userId: this.article.userId,
           subject: this.article.subject,
           content: this.article.content,
         })
         .then(({ data }) => {
-          let msg = "수정 처리시 문제가 발생했습니다.";
+          let message = "수정 처리시 문제가 발생했습니다.";
           if (data === "success") {
-            msg = "수정이 완료되었습니다.";
+            message = "수정이 완료되었습니다.";
           }
-          alert(msg);
+          alert(message);
           // 현재 route를 /list로 변경.
           this.moveList();
         });
