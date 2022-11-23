@@ -105,7 +105,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.", response = Map.class)
-    @GetMapping("/search/{articleNo}")
+    @GetMapping("/view/{articleNo}")
     public ResponseEntity<Map<String, Object>> findArticle(
             @PathVariable("articleNo") @ApiParam(value = "조회할 게시글 번호", required = true) int articleNo) {
         log.debug("Get article");

@@ -105,7 +105,7 @@ public class NoticeController {
     }
 
     @ApiOperation(value = "공지사항 글 조회", notes = "공지사항 글을 조회한다.", response = Map.class)
-    @GetMapping("/search/{article_no}")
+    @GetMapping("/view/{article_no}")
     public ResponseEntity<Map<String, Object>> findArticle(
             @PathVariable("article_no") @ApiParam(value = "조회할 공지사항 글 번호", required = true) int articleNo) {
         log.debug("Get article(notice)");
