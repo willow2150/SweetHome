@@ -3,10 +3,9 @@
     <div id="map"></div>
 
     <!-- Classic Modal -->
-    <modal :show.sync="modals.classic" id="houseInfoModal">
-      <div class="">
-        <h5 style="color: black">HIHIHIHIHI</h5>
-      </div>
+    <modal :show.sync="houseInfoModal.classic" id="houseInfoModal">
+      <h5 slot="header" class="title title-up">1</h5>
+      <div><span style="color: black">여기에 상세정보? 리스트?</span></div>
     </modal>
   </div>
 </template>
@@ -25,17 +24,19 @@ export default {
   },
   data() {
     return {
-      modals: {
+      houseInfoModal: {
         classic: true,
         mini: false,
       },
       map: null,
       markers: [],
+      selectedApt: null,
     };
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
+      this.displayMarker();
     } else {
       const script = document.createElement("script");
       /* global kakao */
@@ -119,28 +120,27 @@ export default {
         imageOption
       );
 
+      // 좌표로 마커찍기
       this.markers = this.aptlist.map(
         (apt) =>
           new kakao.maps.Marker({
             map: this.map,
             position: new kakao.maps.LatLng(apt.lat, apt.lng),
-            title: "1",
+            title: apt.houseCode,
             image: markerImage,
           })
       );
-
+      console.log(this.markers);
+      console.log(this.aptlist);
+      // 미커별 이벤트추가
       this.markers.forEach((marker) => {
-        // console.log(marker);
-        this.displayInfo(marker);
-      });
-    },
-
-    displayInfo(marker) {
-      // 마커에 클릭이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, "click", () => {
-        console.log(this.modals);
-        // 마커 위에 인포윈도우를 표시합니다
-        this.modals.classic = true;
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, "click", () => {
+          console.log(marker);
+          // 마커 위에 인포윈도우를 표시합니다
+          this.selectedApt = null;
+          this.houseInfoModal.classic = true;
+        });
       });
     },
   },
@@ -154,6 +154,15 @@ export default {
 }
 
 #houseInfoModal {
+  width: 100%;
+  height: 50rem;
+  position: absolute;
+  margin: 0;
+}
+
+#houseInfoModal > .modal-dialog > .modal-content {
+  width: 50rem;
+  height: 47rem;
   position: absolute;
 }
 </style>

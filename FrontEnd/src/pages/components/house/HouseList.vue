@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="" id="modals">
-      <n-button type="info" @click.native="modals.classic = true">
+      <n-button type="info" @click.native="aptlistmodals.classic = true">
         <i class="now-ui-icons text_align-left"></i>
         아파트 목록 펼치기
       </n-button>
     </div>
     <!-- Classic Modal -->
-    <modal :show.sync="modals.classic" id="modal">
+    <modal :show.sync="aptlistmodals.classic" id="modal">
       <h5 slot="header" class="title title-up">1</h5>
       <div v-if="aptlist && aptlist.length != 0">
         <HouseListItem v-for="(house, i) in aptlist" :key="i" :house="house" />
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      modals: {
+      aptlistmodals: {
         classic: false,
         mini: false,
       },
@@ -57,8 +57,8 @@ export default {
   z-index: 2;
 }
 #modal {
-  width: 305px;
-  height: 55rem;
+  width: 250px;
+  height: 50rem;
   position: absolute;
   left: 1rem;
   z-index: 3;
@@ -66,7 +66,8 @@ export default {
 }
 
 #modal > .modal-dialog {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 #modal > .modal-dialog > .modal-content > .modal-header {
