@@ -8,5 +8,6 @@
   </div>
 </template>
 <script>
+/*global kakao*/
 export default {};
 </script>

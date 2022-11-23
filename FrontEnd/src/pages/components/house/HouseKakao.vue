@@ -1,6 +1,7 @@
 <template>
   <div>
     <button @click="displayMarker">버튼</button>
+    <div id="result"></div>
     <div id="map">12</div>
   </div>
 </template>
@@ -27,7 +28,7 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=f144e405d2dfa5e48cc87aaa56f28251";
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=f144e405d2dfa5e48cc87aaa56f28251&libraries=services";
       document.head.appendChild(script);
     }
   },
@@ -45,6 +46,32 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      const map = this.map;
+
+      window.kakao.maps.event.addListener(map, "dragend", () => {
+        // 지도의 중심좌표를 얻어옵니다
+        var latlng = this.map.getCenter();
+
+        const message =
+          "중심 좌표는 위도 " +
+          latlng.getLat() +
+          ", 경도 " +
+          latlng.getLng() +
+          "입니다";
+
+        // 좌표 변환
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        var callback = function (result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            console.log(result);
+            console.log("지역 명칭 : " + result[0].address_name);
+            console.log("행정구역 코드 : " + result[0].code);
+          }
+        };
+
+        geocoder.coord2RegionCode(latlng.getLng(), latlng.getLat(), callback);
+      });
     },
 
     displayMarker() {

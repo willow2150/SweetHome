@@ -116,6 +116,10 @@ const userStore = {
         },
         (error) => {
           console.log(error);
+          commit("SET_IS_LOGIN", false);
+          commit("SET_IS_LOGIN_ERROR", true);
+          commit("SET_IS_VALID_TOKEN", false);
+          alert("아이디, 비밀번호를 확인하세요!");
         }
       );
     },

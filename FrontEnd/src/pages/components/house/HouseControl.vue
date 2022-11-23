@@ -28,7 +28,7 @@
         <b-col class="sm-3 pt-3 px-0">
           <fg-input placeholder="아파트 이름을 입력하세요"></fg-input>
         </b-col>
-        <b-col cols="2" class="px-0">
+        <b-col cols="2">
           <button
             class="btn btn-info btn-lg"
             style="font-weight: bold"
