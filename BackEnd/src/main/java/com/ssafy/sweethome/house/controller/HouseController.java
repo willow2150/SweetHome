@@ -128,22 +128,45 @@ public class HouseController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-//    @ApiOperation(value = "아파트 거래 목록 조회(위도 및 경도)", notes = "위도 및 경도로 검색하여 아파트 거래 목록을 조회한다.", response = Map.class)
-//    @GetMapping("/{lat}/{lng}")
-//    public ResponseEntity<Map<String, Object>> searchHouseListByLatAndLng(
-//            @PathVariable("lat") @ApiParam(value = "위도", required = true) String lat,
-//            @PathVariable("lng") @ApiParam(value = "경도", required = true) String lng) {
-//        log.debug("Apartment transaction listing lookup: by latitude and longitude");
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status;
-//        try {
-//            // 위도 경도로 housedeal 잡아오고
-//            // houseCode
-//        } catch (Exception e) {
-//            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<>(resultMap, status);
-//    }
+    @ApiOperation(value = "아파트 목록 조회(시도구군 고유 번호)", notes = "시도구군 고유 번호가 일치하는 아파트를 조회한다.", response = Map.class)
+    @GetMapping("/aptList/{sidoGugunCode}")
+    public ResponseEntity<Map<String, Object>> searchHouseListBySidoGugunCode(
+            @PathVariable("sidoGugunCode") @ApiParam(value = "시도구군 고유 번호", required = true) String sidoGugunCode) {
+        log.debug("Apartment listing lookup: by sidoGugunCode");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            List<Houseinfo> houseinfoList = houseService.searchHouseinfoListBySidoGugunCode(sidoGugunCode);
+            log.debug("Get hoseList success - Number of houses found: {}", houseinfoList.size());
+            resultMap.put("houseList", houseinfoList);
+            resultMap.put("message", SUCCESS);
+            status = houseinfoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        } catch (Exception e) {
+            log.debug("Failed to look up apartment transaction list: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @ApiOperation(value = "특정 아파트의 거래 목록 조회(아파트 고유 번호)", notes = "아파트 고유 번호를 이용하여 해당 아파트의 거래 목록을 조회한다", response = Map.class)
+    @GetMapping("/aptDealList/{houseCode}")
+    public ResponseEntity<Map<String, Object>> searchHousedealListByHouseCode(
+            @PathVariable("houseCode") @ApiParam(value = "아파트 고유 번호", required = true) long houseCode) {
+        log.debug("Retrieve a list of specific apartment deals - houseCode: {}", houseCode);
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            List<Housedeal> housedealList = houseService.searchHousedealListByHouseCode(houseCode);
+            log.debug("Succeeded in querying the specific apartment transaction list - number of apartment transactions: {}", housedealList.size());
+            resultMap.put("housedealList", housedealList);
+            resultMap.put("message", SUCCESS);
+            status = housedealList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        } catch (Exception e) {
+            log.debug("Failed to retrieve specific apartment transaction list: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
 }
