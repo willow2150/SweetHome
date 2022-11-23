@@ -1,7 +1,6 @@
 <template>
   <div class="page-header clear-filter" filter-color="white">
     <div class="container" style="max-width: 115rem">
-      <house-control />
       <div class="row">
         <div class="col-md-12">
           <HouseList />
@@ -23,7 +22,6 @@ export default {
   components: {
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
-    HouseControl,
     HouseKakao,
     HouseList,
   },

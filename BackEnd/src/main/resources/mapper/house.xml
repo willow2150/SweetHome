@@ -127,6 +127,7 @@
         SELECT houseName, houseCode, buildYear, jibun, lat, lng
         FROM houseinfo
         Where sigunguCode = #{sidoGugunCode}
+        LIMIT 200;
     </select>
 
 

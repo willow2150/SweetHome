@@ -9,8 +9,8 @@
     <!-- Classic Modal -->
     <modal :show.sync="modals.classic" id="modal">
       <h5 slot="header" class="title title-up">1</h5>
-      <div v-if="houses && houses.length != 0">
-        <HouseListItem v-for="(house, i) in houses" :key="i" :house="house" />
+      <div v-if="aptlist && aptlist.length != 0">
+        <HouseListItem v-for="(house, i) in aptlist" :key="i" :house="house" />
       </div>
       <div v-else>
         <h3 style="color: black">해당 지역에 매물이 없습니다ㅜㅜ</h3>
@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["houses", "house"]),
+    ...mapState(houseStore, ["houses", "house", "aptlist"]),
     // houses() {
     //   return this.$store.state.houses;
     // },
@@ -58,7 +58,7 @@ export default {
 }
 #modal {
   width: 305px;
-  height: 45rem;
+  height: 55rem;
   position: absolute;
   left: 1rem;
   z-index: 3;
