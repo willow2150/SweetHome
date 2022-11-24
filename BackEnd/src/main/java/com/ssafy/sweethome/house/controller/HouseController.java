@@ -158,6 +158,14 @@ public class HouseController {
         HttpStatus status;
         try {
             List<Housedeal> housedealList = houseService.searchHousedealListByHouseCode(houseCode);
+            Houseinfo houseinfo;
+            Dongcode dongCode;
+            if (!housedealList.isEmpty()) {
+                houseinfo = houseService.searchHouseinfoByCode(housedealList.get(0).getHouseCode());
+                resultMap.put("houseinfo", houseinfo);
+                dongCode = houseService.searchRegionByDongCode(houseinfo.getDongCode());
+                resultMap.put("dongCode", dongCode);
+            }
             log.debug("Succeeded in querying the specific apartment transaction list - number of apartment transactions: {}", housedealList.size());
             resultMap.put("housedealList", housedealList);
             resultMap.put("message", SUCCESS);
