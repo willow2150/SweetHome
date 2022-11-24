@@ -5,15 +5,59 @@
     <!-- Classic Modal -->
     <modal :show.sync="houseInfoModal.classic" id="houseInfoModal">
       <h5 slot="header" class="title title-up">1</h5>
-      <div class="container">
-        <h2 style="color: black">{{ this.selectedApt.houseName }}</h2>
-        <h3 style="color: black">상세주소 : {{ this.selectedApt.address }}</h3>
-        <h3 style="color: black">
-          면적 : {{ this.selectedApt.address }} 제곱미터
-        </h3>
-        <h3 style="color: black">
-          가격 : {{ this.selectedApt.dealAmount }} 만원
-        </h3>
+      <img src="img/apt/1.PNG" width="350px" />
+      <p class="category text-info" style="color: black; font-size: 36px">
+        {{ this.selectedApt.houseName }}
+      </p>
+      <div class="row" style="color: black; text-align: center">
+        <div class="col-2"></div>
+        <div class="col-3"><p class="category text-info">상세 주소</p></div>
+        <div class="col-6">
+          <p class="description" style="color: black">
+            {{ this.selectedApt.address }}
+          </p>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="row" style="color: black; text-align: center">
+        <div class="col-2"></div>
+        <div class="col-3"><p class="category text-info">거래 일시</p></div>
+        <div class="col-6">
+          <p class="description" style="color: black">
+            {{ this.selectedApt.dealYear }}년 {{ this.selectedApt.dealMonth }}월
+          </p>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="row" style="color: black; text-align: center">
+        <div class="col-2"></div>
+        <div class="col-3"><p class="category text-info">가격</p></div>
+        <div class="col-6">
+          <p class="description" style="color: black">
+            {{ this.selectedApt.dealAmount }}만원
+          </p>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="row" style="color: black; text-align: center">
+        <div class="col-2"></div>
+        <div class="col-3"><p class="category text-info">면적</p></div>
+        <div class="col-6">
+          <p class="description" style="color: black">
+            {{ this.selectedApt.area }}㎡
+          </p>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <div class="row" style="color: black; text-align: center">
+        <div class="col-2"></div>
+        <div class="col-3"><p class="category text-info">층수</p></div>
+        <div class="col-6">
+          <p class="description" style="color: black">
+            {{ this.selectedApt.floor }}층
+          </p>
+        </div>
+        <div class="col-2"></div>
       </div>
     </modal>
   </div>
@@ -28,6 +72,10 @@ import { apiInstance } from "../../../api/http.js";
 const api = apiInstance();
 
 const houseStore = "houseStore";
+
+function random(n) {
+  return Math.floor(Math.random() * 100000) % 6;
+}
 
 export default {
   name: "HouseKakao",
