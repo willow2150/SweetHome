@@ -21,4 +21,12 @@ async function deleteArticle(articleno, success, fail) {
   api.delete(`/board/delete/${articleno}`).then(success).catch(fail);
 }
 
-export { getArticleList, writeArticle, getArticle, modifyArticle, deleteArticle };
+async function getCommentList(articleno, success, fail) {
+  api.get(`/comment/list/${articleno}`).then(success).catch(fail);
+}
+
+async function writeComment(comment, success, fail) {
+  api.post(`/comment/write`).then(success).catch(fail);
+}
+
+export { getArticleList, writeArticle, getArticle, modifyArticle, deleteArticle, getCommentList, writeComment };
