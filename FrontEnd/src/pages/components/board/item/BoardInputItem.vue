@@ -1,19 +1,21 @@
 <template>
   <b-row class="mb-1">
     <b-col style="text-align: left">
-      <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userId-group" label="글쓴이:" label-for="userId" description="작성자를 입력하세요.">
+      <b-form >
+        
+        <b-form-group id="userId-group" label="글쓴이:" label-for="userId">
           <b-form-input
             id="userId"
             :disabled="isUserid"
-            v-model="article.userId"
+            v-model="this.userInfo.userId"
             type="text"
             required
-            placeholder="작성자 입력"
+            readonly
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
+
+        <b-form-group v-if="this.type === 'register' || this.type === 'modify'" id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
           <b-form-input
             id="subject"
             v-model="article.subject"
@@ -22,8 +24,18 @@
             placeholder="제목 입력"
           ></b-form-input>
         </b-form-group>
+        <b-form-group v-if="this.type === 'view'" id="subject-group" label="제목:" label-for="subject"">
+          <b-form-input
+            id="subject"
+            v-model="article.subject"
+            type="text"
+            required
+            readonly
+          ></b-form-input>
+        </b-form-group>
 
-        <b-form-group id="content-group" label="내용:" label-for="content">
+
+        <b-form-group v-if="this.type === 'register' || this.type === 'modify'" id="content-group" label="내용:" label-for="content">
           <b-form-textarea
             id="content"
             v-model="article.content"
@@ -32,24 +44,38 @@
             max-rows="15"
           ></b-form-textarea>
         </b-form-group>
+        <b-form-group v-if="this.type === 'view'" id="content-group" label="내용:" label-for="content">
+          <b-form-textarea
+            id="content"
+            v-model="article.content"
+            rows="10"
+            max-rows="15"
+            readonly
+          ></b-form-textarea>
+        </b-form-group>
 
-        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-if="this.type === 'register'"
-          >글작성</b-button
-        >
-        <b-button type="reset" variant="danger" class="btn-neutral text-info" v-if="this.type === 'register'">
-          초기화</b-button
-        >
-        <b-button type="submit" variant="primary" class="btn-neutral text-info" v-else-if="this.type === 'modify'"
+        <div align="left" >
+          <b-button @click="registarticle" align="left" v-if="this.type === 'register'" type="submit" variant="primary" class="btn-neutral text-info"
+            >글 작성</b-button
+          >
+          <b-button @click="modifyThisArticle" align="left" v-else-if="this.type === 'modify'" type="submit" variant="primary" class="btn-neutral text-info"
           >글 수정</b-button
-        >
+          >
+          <b-button @click="moveList" align="left" v-if="this.type !== 'view'" type="reset" variant="primary" class="btn-neutral text-info"
+            >돌아가기</b-button
+          >
+        </div>
+
       </b-form>
     </b-col>
   </b-row>
 </template>
 
 <script>
-import http from "@/api/http";
-import { getArticle } from "@/api/board";
+import { getArticle, writeArticle, modifyArticle } from "@/api/board";
+import { mapState } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "BoardInputItem",
@@ -65,83 +91,72 @@ export default {
     };
   },
   props: {
+    userId: {
+      type: String
+    },
     type: { type: String },
+  },
+  computed: {
+    ...mapState(userStore, ["userInfo"]),
   },
   created() {
     let param = this.$route.params.articleNo;
-    getArticle(
-      param,
-      ({ data }) => {
-        this.article = data.board;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    this.article.articleNo = data.article.articleNo;
-    this.article.userId = data.article.userId;
-    this.article = data;
-    if (this.type === "modify") {
-      this.article.subject = data.article.subject;
-      this.article.content = data.article.content;
+    if (this.type !== "register") {
+      getArticle(
+        param,
+        ({ data }) => {
+          this.article = data.board;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
-    this.isUserid = true;
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-
-      let err = true;
-      let msg = "";
-      !this.article.userId && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userId.focus());
-      err && !this.article.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
-      err && !this.article.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
-
-      if (!err) alert(msg);
-      else this.type === "register" ? this.registArticle() : this.modifyArticle();
-    },
-    onReset(event) {
-      event.preventDefault();
-      this.article.articleNo = 0;
-      this.article.subject = "";
-      this.article.content = "";
-      this.moveList();
-    },
-    registArticle() {
-      http
-        .post(`/board`, {
-          userId: this.article.userId,
-          subject: this.article.subject,
-          content: this.article.content,
-        })
-        .then(({ data }) => {
-          let message = "등록 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            message = "등록이 완료되었습니다.";
+    registarticle() {
+      this.article.userId = this.userInfo.userId;
+      let param = this.article
+      writeArticle(
+        param,
+        ({ data }) => {
+          let message = "글 작성 중 문제가 발생했습니다.";
+          if (data.message === "success") {
+            message = "작성이 완료되었습니다.";
           }
           alert(message);
-          this.moveList();
-        });
+          // 현재 route를 /list로 변경.
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      this.moveList();
     },
-    modifyArticle() {
-      http
-        .put(`/board`, {
-          articleno: this.article.articleNo,
-          userId: this.article.userId,
-          subject: this.article.subject,
-          content: this.article.content,
-        })
-        .then(({ data }) => {
+    modifyThisArticle() {
+      let param = {
+        articleNo: this.article.articleNo,
+        userId: this.article.userId,
+        subject: this.article.subject,
+        content: this.article.content,
+      };
+      modifyArticle(
+        param,
+        ({ data }) => {
           let message = "수정 처리시 문제가 발생했습니다.";
-          if (data === "success") {
+          if (data.message === "success") {
             message = "수정이 완료되었습니다.";
           }
           alert(message);
           // 현재 route를 /list로 변경.
-          this.moveList();
-        });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      this.moveList();
     },
-    moveList() {
+    moveList() {  
       this.$router.push({ name: "boardlist" });
     },
   },

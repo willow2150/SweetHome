@@ -16,7 +16,7 @@ import moment from "moment";
 export default {
   name: "NoticeListItem",
   props: {
-    articleno: Number,
+    articleNo: Number,
     userid: String,
     subject: String,
     hit: Number,

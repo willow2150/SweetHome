@@ -14,10 +14,10 @@
           </b-col>
           <b-col class="text-right">
             <b-button @click="moveModifyArticle" size="sm" class="btn-neutral text-info">글 수정</b-button>
-            <b-button @click="deleteArticle" size="sm" class="btn-neutral text-info">글 삭제</b-button>
+            <b-button @click="deleteThisArticle" size="sm" class="btn-neutral text-info">글 삭제</b-button>
           </b-col>
         </b-row>
-        <board-input-item type="view" />
+        <board-input-item :userId="this.article.userId" type="view" />
       </b-container>
     </div>
   </div>
@@ -25,7 +25,7 @@
 
 <script>
 import BoardInputItem from "@/pages/components/board/item/BoardInputItem";
-// import { getArticle } from "@/api/board";
+import { getArticle, deleteArticle } from "@/api/board";
 import { mapState } from "vuex";
 
 const userStore = "userStore";
@@ -41,6 +41,7 @@ export default {
         content: "",
         regTime: "",
       },
+      userId: "",
     };
   },
   components: {
@@ -54,42 +55,56 @@ export default {
     },
   },
   created() {
-    // let param = this.$route.params.articleNo;
-    // getArticle(
-    //   param,
-    //   ({ data }) => {
-    //     this.article = data.board;
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+    let param = this.$route.params.articleNo;
+    getArticle(
+      param,
+      ({ data }) => {
+        this.article = data.board;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   methods: {
     moveModifyArticle() {
+      if (this.userInfo.userId !== this.article.userId) {
+        alert("권한이 없는 요청입니다.");
+        return;
+      }
       this.$router.replace({
         name: "boardmodify",
         params: { articleNo: this.article.articleNo },
       });
-      //   this.$router.push({ path: `/board/modify/${this.article.articleNo}` });
     },
-    deleteArticle() {
+    deleteThisArticle() {
+      if (this.userInfo.userId !== this.article.userId) {
+        alert("권한이 없는 요청입니다.");
+        return;
+      }
       if (confirm("정말로 삭제할까요?")) {
-        this.$router.replace({
-          name: "boarddelete",
-          params: { articleNo: this.article.articleNo },
-        });
+        let param = this.article.articleNo;
+        deleteArticle(
+          param,
+          ({ data }) => {
+            let message = "삭제 처리시 문제가 발생했습니다.";
+            if (data.message === "success") {
+              message = "삭제가 완료되었습니다.";
+            }
+            alert(message);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+        this.$router.push({ name: "boardlist" });
       }
     },
+
     moveList() {
       this.$router.push({ name: "boardlist" });
     },
   },
-  // filters: {
-  //   dateFormat(regTime) {
-  //     return moment(new Date(regTime)).format("YY.MM.DD hh:mm:ss");
-  //   },
-  // },
 };
 </script>
 
