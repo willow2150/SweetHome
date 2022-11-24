@@ -1,8 +1,7 @@
 <template>
   <b-row class="mb-1">
     <b-col style="text-align: left">
-      <b-form >
-        
+      <b-form>
         <b-form-group id="userId-group" label="글쓴이:" label-for="userId">
           <b-form-input
             id="userId"
@@ -14,8 +13,13 @@
           ></b-form-input>
         </b-form-group>
 
-
-        <b-form-group v-if="this.type === 'register' || this.type === 'modify'" id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
+        <b-form-group
+          v-if="this.type === 'register' || this.type === 'modify'"
+          id="subject-group"
+          label="제목:"
+          label-for="subject"
+          description="제목을 입력하세요."
+        >
           <b-form-input
             id="subject"
             v-model="article.subject"
@@ -24,7 +28,12 @@
             placeholder="제목 입력"
           ></b-form-input>
         </b-form-group>
-        <b-form-group v-if="this.type === 'view'" id="subject-group" label="제목:" label-for="subject"">
+        <b-form-group
+          v-if="this.type === 'view'"
+          id="subject-group"
+          label="제목:"
+          label-for="subject"
+        >
           <b-form-input
             id="subject"
             v-model="article.subject"
@@ -34,8 +43,12 @@
           ></b-form-input>
         </b-form-group>
 
-
-        <b-form-group v-if="this.type === 'register' || this.type === 'modify'" id="content-group" label="내용:" label-for="content">
+        <b-form-group
+          v-if="this.type === 'register' || this.type === 'modify'"
+          id="content-group"
+          label="내용:"
+          label-for="content"
+        >
           <b-form-textarea
             id="content"
             v-model="article.content"
@@ -44,7 +57,12 @@
             max-rows="15"
           ></b-form-textarea>
         </b-form-group>
-        <b-form-group v-if="this.type === 'view'" id="content-group" label="내용:" label-for="content">
+        <b-form-group
+          v-if="this.type === 'view'"
+          id="content-group"
+          label="내용:"
+          label-for="content"
+        >
           <b-form-textarea
             id="content"
             v-model="article.content"
@@ -54,23 +72,45 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <div align="left" >
-          <b-button @click="registarticle" align="left" v-if="this.type === 'register'" type="submit" variant="primary" class="btn-neutral text-info"
+        <div align="left">
+          <b-button
+            @click="registarticle"
+            align="left"
+            v-if="this.type === 'register'"
+            type="submit"
+            variant="primary"
+            class="btn-neutral text-info"
             >글 작성</b-button
           >
-          <b-button @click="modifyThisArticle" align="left" v-else-if="this.type === 'modify'" type="submit" variant="primary" class="btn-neutral text-info"
-          >글 수정</b-button
+          <b-button
+            @click="modifyThisArticle"
+            align="left"
+            v-else-if="this.type === 'modify'"
+            type="submit"
+            variant="primary"
+            class="btn-neutral text-info"
+            >글 수정</b-button
           >
-          <b-button @click="moveList" align="left" v-if="this.type !== 'view'" type="reset" variant="primary" class="btn-neutral text-info"
+          <b-button
+            @click="moveList"
+            align="left"
+            v-if="this.type !== 'view'"
+            type="reset"
+            variant="primary"
+            class="btn-neutral text-info"
             >돌아가기</b-button
           >
         </div>
       </b-form>
 
-      <br/><br/><br/><br/>
+      <br /><br /><br /><br />
 
       <b-form v-if="this.type === 'view'">
-        <b-form-group id="userId-group" label="댓글을 작성하세요" label-for="userId">
+        <b-form-group
+          id="userId-group"
+          label="댓글을 작성하세요"
+          label-for="userId"
+        >
           <b-form-input
             id="userId"
             :disabled="isUserid"
@@ -79,24 +119,43 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-button @click="writecomment" align="left" type="submit" variant="primary" class="btn-neutral text-info">댓글 작성</b-button>
+        <b-button
+          @click="writecomment"
+          align="left"
+          type="submit"
+          variant="primary"
+          class="btn-neutral text-info"
+          >댓글 작성</b-button
+        >
       </b-form>
 
-      <br/>
-      <b-form-group v-if="this.type === 'view'" id="content-group" label="댓글 목록" label-for="content">
-          <b-form-textarea v-for="(cmt, index) in comments" :key="index"
-            id="content"
-            v-model="cmt.content"
-            readonly
-          ></b-form-textarea>
-        </b-form-group>
-      
+      <br />
+      <b-form-group
+        v-if="this.type === 'view'"
+        id="content-group"
+        label="댓글 목록"
+        label-for="content"
+      >
+        <b-form-textarea
+          v-for="(cmt, index) in comments"
+          :key="index"
+          id="content"
+          v-model="cmt.content"
+          readonly
+        ></b-form-textarea>
+      </b-form-group>
     </b-col>
   </b-row>
 </template>
 
 <script>
-import { getArticle, writeArticle, modifyArticle, getCommentList, writeComment } from "@/api/board";
+import {
+  getArticle,
+  writeArticle,
+  modifyArticle,
+  getCommentList,
+  writeComment,
+} from "@/api/board";
 import { mapState } from "vuex";
 
 const userStore = "userStore";
@@ -111,10 +170,12 @@ export default {
         subject: "",
         content: "",
       },
-      comments: [{
-        userId: "",
-        comment: "",
-      },],
+      comments: [
+        {
+          userId: "",
+          comment: "",
+        },
+      ],
       comment: {
         userId: "",
         content: "",
@@ -124,7 +185,7 @@ export default {
   },
   props: {
     userId: {
-      type: String
+      type: String,
     },
     type: { type: String },
   },
@@ -153,14 +214,14 @@ export default {
         (error) => {
           console.log(error);
         }
-      )
+      );
     }
     this.comment.userId = this.userInfo.userId;
   },
   methods: {
     registarticle() {
       this.article.userId = this.userInfo.userId;
-      let param = this.article
+      let param = this.article;
       writeArticle(
         param,
         ({ data }) => {
@@ -200,14 +261,14 @@ export default {
       );
       this.moveList();
     },
-    moveList() {  
+    moveList() {
       this.$router.push({ name: "boardlist" });
     },
     writecomment() {
       let param = {
         userId: this.comment.userId,
         comment: this.comment.content,
-      }
+      };
       writeComment(
         param,
         ({ data }) => {
@@ -220,8 +281,7 @@ export default {
         (error) => {
           console.log(error);
         }
-      )
-      
+      );
     },
   },
 };
