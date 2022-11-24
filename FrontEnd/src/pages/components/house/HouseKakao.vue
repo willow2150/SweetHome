@@ -103,7 +103,7 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=f144e405d2dfa5e48cc87aaa56f28251&libraries=services";
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=f144e405d2dfa5e48cc87aaa56f28251&libraries=services,clusterer,drawing";
       document.head.appendChild(script);
     }
   },
@@ -132,30 +132,31 @@ export default {
       window.kakao.maps.event.addListener(map, "dragend", () => {
         // 지도의 중심좌표를 얻어옵니다
         const latlng = this.map.getCenter();
-        // const message =
-        //   "중심 좌표는 위도 " +
-        //   latlng.getLat() +
-        //   ", 경도 " +
-        //   latlng.getLng() +
-        //   "입니다";
 
         // 좌표 변환
         const geocoder = new kakao.maps.services.Geocoder();
-        // console.log(geocoder);
 
         const callback = (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
-            // console.log("지역 명칭 : " + result[0].address_name);
-            // console.log("행정구역 코드 : " + result[0].code);
             const params = result[0].code.slice(0, 5);
             this.CLEAR_APT_LISTS();
             this.getAptList(params);
             this.prevCode = params;
+            clusterer = null;
           }
         };
 
         geocoder.coord2RegionCode(latlng.getLng(), latlng.getLat(), callback);
         this.displayMarker();
+
+        // 마커 클러스터러를 생성합니다
+        var clusterer = new kakao.maps.MarkerClusterer({
+          map: this.map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+          averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+          minLevel: 6, // 클러스터 할 최소 지도 레벨
+        });
+
+        clusterer.addMarkers(this.markers);
       });
     },
 
@@ -191,13 +192,11 @@ export default {
             image: markerImage,
           })
       );
-      // console.log(this.markers);
-      // console.log(this.aptlist);
+
       // 미커별 이벤트추가
       this.markers.forEach((marker) => {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, "click", () => {
-          // console.log(marker.Gb);
           // 마커 위에 인포윈도우를 표시합니다
           this.chooseApt(marker.Gb);
           this.houseInfoModal.classic = true;
