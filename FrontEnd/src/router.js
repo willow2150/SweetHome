@@ -85,7 +85,7 @@ export default new Router({
     {
       path: "/board",
       name: "board",
-      components: { default: Board, header: MainNavbar, footer: MainFooter },
+      components: { default: Board, header: MainNavbar },
       redirect: "/board/list",
       props: {
         header: { colorOnScroll: 400 },

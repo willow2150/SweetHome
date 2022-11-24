@@ -26,7 +26,7 @@ async function getCommentList(articleno, success, fail) {
 }
 
 async function writeComment(comment, success, fail) {
-  api.post(`/comment/write`).then(success).catch(fail);
+  api.post(`/comment/write`, JSON.stringify(comment)).then(success).catch(fail);
 }
 
 export { getArticleList, writeArticle, getArticle, modifyArticle, deleteArticle, getCommentList, writeComment };

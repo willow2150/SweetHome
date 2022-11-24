@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-header clear-filter" filter-color="blue">
+    <div id="g" class="page-header clear-filter" filter-color="blue">
       <b-container class="bv-example-row mt-3">
         <div class="d-flex justify-content-between">
           <div class="row" style="font-size: 2rem">
@@ -108,4 +108,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#g {
+  min-height: 100vh;
+  max-height: 600px;
+  padding: 0;
+  color: #ffffff;
+  position: relative;
+  overflow: auto;
+}
+</style>
