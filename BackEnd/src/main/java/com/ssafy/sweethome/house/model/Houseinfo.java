@@ -24,4 +24,6 @@ public class Houseinfo {
     private String lng;
 
     private String lat;
+
+    private String dong;
 }
