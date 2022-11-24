@@ -54,4 +54,9 @@ public class HouseServiceImpl implements HouseService {
     public List<Housedeal> searchHousedealListByHouseCode(long houseCode) throws Exception {
         return houseMapper.selectHousedealListByHouseCode(houseCode);
     }
+
+    @Override
+    public String searchRegionNameByDongCode(String dongCode) throws Exception {
+        return houseMapper.selectRegionNameByDongCode(dongCode);
+    }
 }

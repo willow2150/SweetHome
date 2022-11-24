@@ -26,4 +26,6 @@ public interface HouseService {
     List<Houseinfo> searchHouseinfoListBySidoGugunCode(String sidoGugunCode) throws Exception;
 
     List<Housedeal> searchHousedealListByHouseCode(long houseCode) throws Exception;
+
+    String searchRegionNameByDongCode(String dongCode) throws Exception;
 }

@@ -177,4 +177,31 @@ public class HouseController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @ApiOperation(value = "지역 고유 번호로 행정 구역 이름을 조회", notes = "지역 고유 번호로 행정 구역 이름을 조회한다.", response = String.class)
+    @GetMapping("/search-region/{dongCode}")
+    public ResponseEntity<Map<String, String>> saerchRegionNameByDongCode(
+            @PathVariable("dongCode") @ApiParam(value = "지역 고유 번호", required = true) String dongCode) {
+        log.debug("Find administrative division name by region unique number: {}", dongCode);
+        Map<String, String> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            String regionName = houseService.searchRegionNameByDongCode(dongCode);
+            if (regionName == null) {
+                log.debug("Failed to find administrative district name by region unique number");
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NO_CONTENT;
+            } else {
+                log.debug("Administrative district name search success by region unique number");
+                resultMap.put("regionName", regionName);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.OK;
+            }
+        } catch (Exception e) {
+            log.debug("Failed to find administrative district name by region unique number: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
 }

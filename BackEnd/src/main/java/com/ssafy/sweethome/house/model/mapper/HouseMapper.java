@@ -29,4 +29,6 @@ public interface HouseMapper {
     List<Houseinfo> selectHouseinfoListBySidoGugunCode(String sidoGugunCode) throws SQLException;
 
     List<Housedeal> selectHousedealListByHouseCode(long houseCode) throws SQLException;
+
+    String selectRegionNameByDongCode(String dongCode) throws SQLException;
 }

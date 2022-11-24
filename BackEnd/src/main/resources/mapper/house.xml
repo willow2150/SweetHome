@@ -137,4 +137,10 @@
         WHERE houseCode = #{houseCode}
     </select>
 
+    <select id="selectRegionNameByDongCode" parameterType="string" resultType="string">
+        SELECT CONCAT(sidoName, ' ', gugunName)
+        FROM dongCode
+        WHERE dongCode = #{dongCode}
+    </select>
+
 </mapper>
