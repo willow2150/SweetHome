@@ -1,5 +1,10 @@
 <template>
-  <navbar position="fixed" :transparent="transparent" :color-on-scroll="colorOnScroll" menu-classes="ml-auto">
+  <navbar
+    position="fixed"
+    :transparent="transparent"
+    :color-on-scroll="colorOnScroll"
+    menu-classes="ml-auto"
+  >
     <template>
       <router-link v-popover:popover1 class="navbar-brand" to="/">
         <span class="h2" style="font-weight: bold">Sweet Home</span>
@@ -15,17 +20,6 @@
     </template>
     <template slot="navbar-menu">
       <li class="nav-item">
-        <a class="nav-link" href="https://www.creative-tim.com/product/vue-now-ui-kit" target="_blank">
-          <!-- <i class="now-ui-icons arrows-1_cloud-download-93"></i> -->
-          <p>Template Site</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://demos.creative-tim.com/now-ui-dashboard/examples/icons.html" target="_blank">
-          <p>Icon</p>
-        </a>
-      </li>
-      <li class="nav-item">
         <div class="nav-link" v-if="userInfo">
           <router-link to="/housedeal">
             <p>아파트 매물 조회</p>
@@ -38,26 +32,43 @@
         </div>
       </li>
 
-      <drop-down tag="li" title="게시판" icon="now-ui-icons files_single-copy-04" class="nav-item">
-        <nav-link to="/notice" v-if="userInfo"> 
-          <i class="now-ui-icons files_paper"></i> 공지사항 </nav-link>
+      <drop-down
+        tag="li"
+        title="게시판"
+        icon="now-ui-icons files_single-copy-04"
+        class="nav-item"
+      >
+        <nav-link to="/notice" v-if="userInfo">
+          <i class="now-ui-icons files_paper"></i> 공지사항
+        </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin"
           ><i class="now-ui-icons files_paper"></i> 공지사항</nav-link
         >
-        
-        <nav-link to="/board" v-if="userInfo"> 
-          <i class="now-ui-icons design_bullet-list-67"></i> 자유게시판 </nav-link>
+
+        <nav-link to="/board" v-if="userInfo">
+          <i class="now-ui-icons design_bullet-list-67"></i> 자유게시판
+        </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin"
-          ><i class="now-ui-icons design_bullet-list-67"></i> 자유게시판</nav-link
+          ><i class="now-ui-icons design_bullet-list-67"></i>
+          자유게시판</nav-link
         >
       </drop-down>
 
-      <drop-down tag="li" title="회원 정보" icon="now-ui-icons users_circle-08" class="nav-item">
-        <nav-link to="/profile" v-if="userInfo"> <i class="now-ui-icons users_single-02"></i> 내 프로필 </nav-link>
+      <drop-down
+        tag="li"
+        title="회원 정보"
+        icon="now-ui-icons users_circle-08"
+        class="nav-item"
+      >
+        <nav-link to="/profile" v-if="userInfo">
+          <i class="now-ui-icons users_single-02"></i> 내 프로필
+        </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin">
           <i class="now-ui-icons users_single-02"></i> 내 프로필
         </nav-link>
-        <nav-link to=""> <i class="now-ui-icons ui-2_favourite-28"></i> 미정 </nav-link>
+        <nav-link to="">
+          <i class="now-ui-icons ui-2_favourite-28"></i> 미정
+        </nav-link>
       </drop-down>
 
       <li class="nav-item" v-if="userInfo">
