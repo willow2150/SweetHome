@@ -97,7 +97,7 @@ export default {
             console.log(error);
           }
         );
-        this.$router.push({ name: "boardlist" });
+        this.moveList();
       }
     },
 

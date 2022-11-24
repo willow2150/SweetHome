@@ -17,6 +17,7 @@
         SELECT comment_id, article_no, user_id, content, reg_time
         FROM comment
         WHERE article_no = #{articleNo}
+        ORDER BY comment_id DESC
     </select>
 
 

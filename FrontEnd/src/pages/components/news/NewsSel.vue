@@ -8,7 +8,7 @@
             <a
               href="https://www.chosun.com/6VSVRAR6DVFKPCXP2L3AD65RVM/"
               target="_blank"
-              ><img class="d-block" src="img/News1.jpg" alt="First slide"
+              ><img class="d-block" src="../../../../public/img/news/News1.jpg" alt="First slide"
             /></a>
             <div class="carousel-caption d-none d-md-block">
               <h5>
@@ -22,7 +22,7 @@
               target="_blank"
               ><img
                 class="d-block"
-                src="img/News2.jpg"
+                src="../../../../public/img/news/News2.jpg"
                 alt="First slide" /><img
             /></a>
             <div class="carousel-caption d-none d-md-block">
@@ -37,7 +37,7 @@
               target="_blank"
               ><img
                 class="d-block"
-                src="img/News3.jpg"
+                src="../../../../public/img/news/News3.jpg"
                 alt="First slide" /><img
             /></a>
             <div class="carousel-caption d-none d-md-block">

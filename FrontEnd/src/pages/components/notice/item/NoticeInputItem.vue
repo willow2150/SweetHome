@@ -3,10 +3,18 @@
     <b-col style="text-align: left">
       <b-form>
         <b-form-group id="userId-group" label="글쓴이:" label-for="userId">
-          <b-form-input
+          <b-form-input v-if="this.type === 'view'"
             id="userId"
             :disabled="isUserid"
-            v-model="this.userInfo.userId"
+            v-model="this.article.userId"
+            type="text"
+            required
+            readonly
+          ></b-form-input>
+          <b-form-input v-else
+            id="userId"
+            :disabled="isUserid"
+            v-model="this.userId"
             type="text"
             required
             readonly

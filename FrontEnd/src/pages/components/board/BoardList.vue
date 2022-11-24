@@ -46,7 +46,7 @@ export default {
         { key: "subject", label: "제목", tdClass: "tdSubject" },
         { key: "userId", label: "작성자", tdClass: "tdClass" },
         { key: "regTime", label: "작성일", tdClass: "tdClass" },
-        { key: "hit", label: "조회수", tdClass: "tdClass" },
+        // { key: "hit", label: "조회수", tdClass: "tdClass" },
       ],
       // isLogin: null
     };

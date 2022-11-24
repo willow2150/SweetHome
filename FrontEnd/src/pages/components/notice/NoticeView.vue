@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between">
           <div class="row" style="font-size: 2rem">
             <b-icon icon="bell-fill"></b-icon>
-            <p><b>글 상세 정보</b></p>
+            <p><b>공지사항 상세 정보</b></p>
           </div>
         </div>
         <b-row class="mb-1">
