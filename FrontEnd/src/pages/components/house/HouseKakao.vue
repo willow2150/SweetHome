@@ -7,7 +7,7 @@
       <h5 slot="header" class="title title-up">1</h5>
       <div id="roadview" style="width: 100%; height: 250px"></div>
       <p class="category text-info" style="color: black; font-size: 32px">
-        {{ this.selectedApt.houseName }}
+        <!-- {{ this.selectedApt.houseName }} -->
       </p>
       <div class="row" style="color: black; text-align: center">
         <div class="col-2"></div>
