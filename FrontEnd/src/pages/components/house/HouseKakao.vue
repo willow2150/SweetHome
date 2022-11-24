@@ -97,7 +97,6 @@ export default {
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
-      this.displayMarker();
     } else {
       const script = document.createElement("script");
       /* global kakao */
@@ -127,9 +126,8 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
-      const map = this.map;
 
-      window.kakao.maps.event.addListener(map, "dragend", () => {
+      window.kakao.maps.event.addListener(this.map, "dragend", () => {
         // 지도의 중심좌표를 얻어옵니다
         const latlng = this.map.getCenter();
 
