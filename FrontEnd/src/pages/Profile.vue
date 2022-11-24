@@ -98,6 +98,7 @@ export default {
   methods: {
     searchRegionCodes() {
       let param = this.userInfo.userId;
+      // console.log(param);
       getRegionCodes(
         param,
         ({ data }) => {
@@ -107,7 +108,6 @@ export default {
           console.log(error);
         }
       );
-      console.log(this.favoriteRegionCodes);
     },
 
     // searchDeals() {
