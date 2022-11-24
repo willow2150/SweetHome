@@ -57,7 +57,7 @@ export default {
   z-index: 2;
 }
 #modal {
-  width: 250px;
+  width: 300px;
   height: 50rem;
   position: absolute;
   left: 1rem;
