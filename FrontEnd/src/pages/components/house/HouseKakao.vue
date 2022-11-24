@@ -7,58 +7,67 @@
       <h5 slot="header" class="title title-up">1</h5>
       <div id="roadview" style="width: 100%; height: 250px"></div>
       <p class="category text-info" style="color: black; font-size: 32px">
-        <!-- {{ this.selectedApt.houseName }} -->
+        {{ this.selectedAptInfo.houseName }}
       </p>
       <div class="row" style="color: black; text-align: center">
         <div class="col-2"></div>
         <div class="col-3"><p class="category text-info">상세 주소</p></div>
         <div class="col-6">
           <p class="description" style="color: black">
-            {{ this.selectedApt.address }}
+            {{ this.selectedAptAddress.sidoName }}
+            {{ this.selectedAptAddress.gugunName }}
+            {{ this.selectedAptAddress.dongName }}
+            {{ this.selectedAptInfo.jibun }}
           </p>
         </div>
         <div class="col-2"></div>
       </div>
       <div class="row" style="color: black; text-align: center">
         <div class="col-2"></div>
-        <div class="col-3"><p class="category text-info">거래 일시</p></div>
+        <div class="col-3"><p class="category text-info">건축 년도</p></div>
         <div class="col-6">
           <p class="description" style="color: black">
-            {{ this.selectedApt.dealYear }}년 {{ this.selectedApt.dealMonth }}월
+            {{ this.selectedAptInfo.buildYear }}년
           </p>
         </div>
         <div class="col-2"></div>
       </div>
-      <div class="row" style="color: black; text-align: center">
-        <div class="col-2"></div>
-        <div class="col-3"><p class="category text-info">가격</p></div>
-        <div class="col-6">
-          <p class="description" style="color: black">
-            {{ this.selectedApt.dealAmount }}만원
-          </p>
-        </div>
-        <div class="col-2"></div>
-      </div>
-      <div class="row" style="color: black; text-align: center">
-        <div class="col-2"></div>
-        <div class="col-3"><p class="category text-info">면적</p></div>
-        <div class="col-6">
-          <p class="description" style="color: black">
-            {{ this.selectedApt.area }}㎡
-          </p>
-        </div>
-        <div class="col-2"></div>
-      </div>
-      <div class="row" style="color: black; text-align: center">
-        <div class="col-2"></div>
-        <div class="col-3"><p class="category text-info">층수</p></div>
-        <div class="col-6">
-          <p class="description" style="color: black">
-            {{ this.selectedApt.floor }}층
-          </p>
-        </div>
-        <div class="col-2"></div>
-      </div>
+
+      <table class="table align-items-center">
+        <thead>
+          <tr>
+            <th class="text-center text-info font-weight-bold">거래 일시</th>
+            <th class="text-center text-info font-weight-bold">층수</th>
+            <th class="text-center text-info font-weight-bold">면적</th>
+            <th class="text-center text-info font-weight-bold">가격</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(info, i) in this.selectedApts" :key="i">
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bolder"
+                >{{ info.dealYear }}년 {{ info.dealMonth }}월
+                {{ info.dealDay }}일</span
+              >
+            </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bolder"
+                >{{ info.floor }}층</span
+              >
+            </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bolder"
+                >{{ info.area }}㎡</span
+              >
+            </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bolder"
+                >{{ info.dealAmount }}만원</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </modal>
   </div>
 </template>
@@ -87,7 +96,8 @@ export default {
       map: null,
       markers: [],
       selectedApts: [],
-      selectedApt: {},
+      selectedAptInfo: {},
+      selectedAptAddress: {},
     };
   },
   mounted() {
@@ -215,15 +225,13 @@ export default {
     },
 
     chooseApt(aptCode) {
-      console.log(aptCode);
-      const params = { houseName: aptCode };
       api.get(`/house/aptDealList/${aptCode}`).then((data) => {
-        console.log(data);
-        this.selectedApt = null;
         this.selectedApts = null;
-        this.selectedApts = data.data.houseList;
-        console.log(this.selectedApts);
-        // this.selectedApt = this.selectedApts[0];
+        this.selectedAptInfo = null;
+        this.selectedAptAddress = null;
+        this.selectedApts = data.data.housedealList;
+        this.selectedAptInfo = data.data.houseinfo;
+        this.selectedAptAddress = data.data.dongCode;
       });
     },
   },
@@ -241,6 +249,7 @@ export default {
   height: 50rem;
   position: absolute;
   margin: 0;
+  overflow-y: hidden;
 }
 
 #houseInfoModal > .modal-dialog > .modal-content {
@@ -251,5 +260,31 @@ export default {
 
 #houseInfoModal > .modal-dialog > .modal-content > .modal-body {
   padding-top: 0;
+}
+
+tbody {
+  display: block;
+  height: 200px;
+  overflow: auto;
+}
+thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; /* even columns width , fix width of table too*/
+}
+tbody::-webkit-scrollbar {
+  width: 6px; /* 스크롤바의 너비 */
+}
+
+tbody::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #6b6b6b; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+tbody::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 </style>
