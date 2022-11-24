@@ -13,7 +13,7 @@
     </select>
 
     <select id="selectHouseinfoByCode" parameterType="long" resultType="Houseinfo">
-        SELECT houseName, lat, lng, buildYear, houseName, jibun, dongCode
+        SELECT dongCode, houseName, lat, lng, buildYear, houseName, jibun
         FROM houseinfo
         WHERE houseCode = #{houseCode}
     </select>
@@ -124,7 +124,7 @@
 
 
     <select id="selectHouseinfoListBySidoGugunCode" parameterType="string" resultType="Houseinfo">
-        SELECT houseName, dong, houseCode, buildYear, jibun, lat, lng
+        SELECT houseName, dong, houseCode, buildYear, jibun, lat, lng, dongCode
         FROM houseinfo
         Where sigunguCode = #{sidoGugunCode}
         LIMIT 200;
@@ -132,7 +132,7 @@
 
 
     <select id="selectHousedealListByHouseCode" parameterType="long" resultType="Housedeal">
-        SELECT dealAmount, dealYear, dealMonth, dealDay, area, floor
+        SELECT houseCode, dealAmount, dealYear, dealMonth, dealDay, area, floor
         FROM housedeal
         WHERE houseCode = #{houseCode}
     </select>
