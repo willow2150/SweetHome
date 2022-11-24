@@ -66,9 +66,6 @@
         <nav-link to="/login" v-else @click.native="alertLogin">
           <i class="now-ui-icons users_single-02"></i> 내 프로필
         </nav-link>
-        <nav-link to="">
-          <i class="now-ui-icons ui-2_favourite-28"></i> 미정
-        </nav-link>
       </drop-down>
 
       <li class="nav-item" v-if="userInfo">
