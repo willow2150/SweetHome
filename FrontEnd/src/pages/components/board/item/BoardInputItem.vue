@@ -65,14 +65,38 @@
             >돌아가기</b-button
           >
         </div>
-
       </b-form>
+
+      <br/><br/><br/><br/>
+
+      <b-form v-if="this.type === 'view'">
+        <b-form-group id="userId-group" label="댓글을 작성하세요" label-for="userId">
+          <b-form-input
+            id="userId"
+            :disabled="isUserid"
+            v-model="comment.content"
+            type="text"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-button @click="writecomment" align="left" type="submit" variant="primary" class="btn-neutral text-info">댓글 작성</b-button>
+      </b-form>
+
+      <br/>
+      <b-form-group v-if="this.type === 'view'" id="content-group" label="댓글 목록" label-for="content">
+          <b-form-textarea v-for="(cmt, index) in comments" :key="index"
+            id="content"
+            v-model="cmt.content"
+            readonly
+          ></b-form-textarea>
+        </b-form-group>
+      
     </b-col>
   </b-row>
 </template>
 
 <script>
-import { getArticle, writeArticle, modifyArticle } from "@/api/board";
+import { getArticle, writeArticle, modifyArticle, getCommentList, writeComment } from "@/api/board";
 import { mapState } from "vuex";
 
 const userStore = "userStore";
@@ -85,6 +109,14 @@ export default {
         articleNo: 0,
         userId: "",
         subject: "",
+        content: "",
+      },
+      comments: [{
+        userId: "",
+        comment: "",
+      },],
+      comment: {
+        userId: "",
         content: "",
       },
       isUserid: false,
@@ -112,6 +144,18 @@ export default {
         }
       );
     }
+    if (this.type === "view") {
+      getCommentList(
+        this.$route.params.articleNo,
+        ({ data }) => {
+          this.comments = data.comments;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
+    this.comment.userId = this.userInfo.userId;
   },
   methods: {
     registarticle() {
@@ -158,6 +202,26 @@ export default {
     },
     moveList() {  
       this.$router.push({ name: "boardlist" });
+    },
+    writecomment() {
+      let param = {
+        userId: this.comment.userId,
+        comment: this.comment.content,
+      }
+      writeComment(
+        param,
+        ({ data }) => {
+          let message = "댓글 작성 중 문제가 발생했습니다.";
+          if (data.message === "success") {
+            message = "댓글이 등록되었습니다.";
+          }
+          alert(message);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+      
     },
   },
 };

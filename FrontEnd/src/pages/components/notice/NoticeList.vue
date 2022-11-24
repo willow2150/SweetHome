@@ -77,6 +77,10 @@ export default {
       this.$router.push("/profile");
     },
     moveWrite() {
+      if (this.userInfo.type !== "admin") {
+        alert("권한이 없습니다.");
+        return;
+      }
       if (this.userInfo) {
         this.$router.push({ name: "noticewrite" });
       } else {
