@@ -37,17 +37,21 @@
           </router-link>
         </div>
       </li>
+
       <drop-down tag="li" title="게시판" icon="now-ui-icons files_single-copy-04" class="nav-item">
-        <nav-link to="/notice" v-if="userInfo"> <i class="now-ui-icons files_paper"></i> 공지사항 </nav-link>
+        <nav-link to="/notice" v-if="userInfo"> 
+          <i class="now-ui-icons files_paper"></i> 공지사항 </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin"
           ><i class="now-ui-icons files_paper"></i> 공지사항</nav-link
         >
-
-        <nav-link to="/board" v-if="userInfo"> <i class="now-ui-icons design_bullet-list-67"></i> 자유게시판 </nav-link>
+        
+        <nav-link to="/board" v-if="userInfo"> 
+          <i class="now-ui-icons design_bullet-list-67"></i> 자유게시판 </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin"
           ><i class="now-ui-icons design_bullet-list-67"></i> 자유게시판</nav-link
         >
       </drop-down>
+
       <drop-down tag="li" title="회원 정보" icon="now-ui-icons users_circle-08" class="nav-item">
         <nav-link to="/profile" v-if="userInfo"> <i class="now-ui-icons users_single-02"></i> 내 프로필 </nav-link>
         <nav-link to="/login" v-else @click.native="alertLogin">

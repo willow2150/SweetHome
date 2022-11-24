@@ -132,9 +132,9 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- Table `sweethome`.`favoriteRegion`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sweethome`.`favoriteRegion` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `user_id` VARCHAR(20) NOT NULL,
   `dongCode` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`user_id`, `dongCode`),
   INDEX `fk_favoriteRegion_dongcode1_idx` (`dongCode` ASC) VISIBLE,
   CONSTRAINT `fk_favoriteRegion_user1`
     FOREIGN KEY (`user_id`)
@@ -152,11 +152,11 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- Table `sweethome`.`favoriteHousedeal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sweethome`.`favoriteHousedeal` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `housedeal_no` BIGINT NOT NULL,
   `user_id` VARCHAR(20) NOT NULL,
   INDEX `fk_favoriteHousedeal_housedeal_idx` (`housedeal_no` ASC) VISIBLE,
   INDEX `fk_favoriteHousedeal_user1_idx` (`user_id` ASC) VISIBLE,
-  PRIMARY KEY (`housedeal_no`, `user_id`),
   CONSTRAINT `fk_favoriteHousedeal_housedeal`
     FOREIGN KEY (`housedeal_no`)
     REFERENCES `sweethome`.`housedeal` (`no`)
@@ -170,8 +170,3 @@ CREATE TABLE IF NOT EXISTS `sweethome`.`favoriteHousedeal` (
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-
---INSERT INTO user(`user_id`, `user_pwd`, `user_name`, `user_address`, `user_email`, `type`) VALUES('admin', '1234', '삼싸피', '서울특별시 강남구 역삼역 1번 출구', 'ssafy@ssafy.com', 'admin');
---insert into user(user_id, user_pwd, user_name, user_address, user_email) values("ssafyKim", "1234", "김싸피", "서울특별시 강남구 언주로 508 서울상록빌딩", "ssafyKim@ssafy.com");
---insert into board(user_id, `subject`, content) VALUES('ssafyKim', "가입 인사드립니다. 김싸피입니다.", "만반잘부ㅎㅎ");
---INSERT INTO notice(`user_id`, `subject`, `content`) VALUES('admin', '공지사항 테스트입니다.', '공지사항 테스트입니다.');
