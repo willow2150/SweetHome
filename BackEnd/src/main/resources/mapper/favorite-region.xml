@@ -28,4 +28,10 @@
         WHERE dongCode = #{dongCode} AND user_id = #{userId}
     </delete>
 
+    <select id="selectAddressByDongCode" parameterType="string" resultType="string">
+        SELECT CONCAT(sidoName, ' ', gugunName)
+        FROM dongCode
+        WHERE dongCode = {dongCode}
+    </select>
+
 </mapper>

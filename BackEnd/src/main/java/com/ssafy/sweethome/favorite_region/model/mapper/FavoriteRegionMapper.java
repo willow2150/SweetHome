@@ -13,4 +13,6 @@ public interface FavoriteRegionMapper {
     int deleteFavoriteRegion(FavoriteRegion favoriteRegion) throws SQLException;
 
     int insertFavoriteRegion(FavoriteRegion favoriteRegion) throws SQLException;
+
+    List<String> selectAddressByDongCode(String dongCode) throws SQLException;
 }

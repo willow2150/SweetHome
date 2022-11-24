@@ -1,8 +1,8 @@
 import { apiInstance } from "./http.js";
 const api = apiInstance();
 
-async function getRegionCodes(user_id, success, fail) {
-  api.get(`/favorite-region/list/{user_id}`).then(success).catch(fail);
+async function getRegionCodes(userId, success, fail) {
+  api.get(`/favorite-region/list/${userId}`).then(success).catch(fail);
 }
 
 // async function getFavoriteHousedeal(param, success, fail) {

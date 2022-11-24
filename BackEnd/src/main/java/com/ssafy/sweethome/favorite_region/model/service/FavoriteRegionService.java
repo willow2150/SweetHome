@@ -10,4 +10,6 @@ public interface FavoriteRegionService {
     boolean deleteFavoriteRegion(FavoriteRegion favoriteRegion) throws Exception;
 
     boolean insertFavoriteRegion(FavoriteRegion favoriteRegion) throws Exception;
+
+    List<String> searchAddressByDongCode(String dongCode) throws Exception;
 }
