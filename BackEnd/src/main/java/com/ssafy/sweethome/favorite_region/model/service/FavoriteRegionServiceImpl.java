@@ -30,4 +30,9 @@ public class FavoriteRegionServiceImpl implements FavoriteRegionService {
     public boolean insertFavoriteRegion(FavoriteRegion favoriteRegion) throws Exception {
         return favoriteRegionMapper.insertFavoriteRegion(favoriteRegion) == 1;
     }
+
+    @Override
+    public List<String> searchAddressByDongCode(String dongCode) throws Exception {
+        return favoriteRegionMapper.selectAddressByDongCode(dongCode);
+    }
 }

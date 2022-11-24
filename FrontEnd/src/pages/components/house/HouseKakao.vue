@@ -5,9 +5,8 @@
     <!-- Classic Modal -->
     <modal :show.sync="houseInfoModal.classic" id="houseInfoModal">
       <h5 slot="header" class="title title-up">1</h5>
-      <!-- <img src="img/apt/1.PNG" width="350px" /> -->
-      <div id="roadview" style="width: 100%; height: 350px"></div>
-      <p class="category text-info" style="color: black; font-size: 36px">
+      <div id="roadview" style="width: 100%; height: 250px"></div>
+      <p class="category text-info" style="color: black; font-size: 32px">
         {{ this.selectedApt.houseName }}
       </p>
       <div class="row" style="color: black; text-align: center">
@@ -73,10 +72,6 @@ import { apiInstance } from "../../../api/http.js";
 const api = apiInstance();
 
 const houseStore = "houseStore";
-
-function random(n) {
-  return Math.floor(Math.random() * 100000) % 6;
-}
 
 export default {
   name: "HouseKakao",
@@ -187,7 +182,7 @@ export default {
           new kakao.maps.Marker({
             map: this.map,
             position: new kakao.maps.LatLng(apt.lat, apt.lng),
-            title: apt.houseName,
+            title: apt.houseCode,
             image: markerImage,
           })
       );
@@ -220,14 +215,15 @@ export default {
     },
 
     chooseApt(aptCode) {
+      console.log(aptCode);
       const params = { houseName: aptCode };
-      api.post(`/house/list`, JSON.stringify(params)).then((data) => {
+      api.get(`/house/aptDealList/${aptCode}`).then((data) => {
+        console.log(data);
         this.selectedApt = null;
         this.selectedApts = null;
         this.selectedApts = data.data.houseList;
-        this.selectedApt = this.selectedApts[0];
-        // console.log(this.selectedApt);
-        // console.log(this.selectedApt.houseName);
+        console.log(this.selectedApts);
+        // this.selectedApt = this.selectedApts[0];
       });
     },
   },

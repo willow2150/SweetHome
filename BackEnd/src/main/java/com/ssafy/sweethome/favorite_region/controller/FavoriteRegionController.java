@@ -37,7 +37,9 @@ public class FavoriteRegionController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
+            System.out.println(userId);
             List<FavoriteRegion> favoriteRegionCodeList = favoriteRegionService.getFavoriteRegionCodeList(userId);
+            System.out.println(favoriteRegionCodeList);
             if (favoriteRegionCodeList.isEmpty()) {
                 log.debug("No region of interest");
                 status = HttpStatus.NO_CONTENT;
@@ -98,6 +100,33 @@ public class FavoriteRegionController {
             }
         } catch (Exception e) {
             log.debug("Failure to remove region of interest: {}", e.getMessage());
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @ApiOperation(value = "지역 코드로 관심 구역 주소 가져오기", notes = "지역 코드로 관심 구역 주소를 가져온다.", response = Map.class)
+    @GetMapping("/search/{dongCode}")
+    public ResponseEntity<Map<String, Object>> searchAddressByDongCode(
+            @PathVariable @ApiParam(value = "지역 코드", required = true) String dongCode) {
+        log.debug("Get Areas of Interest by Area Code");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            List<String> addressList = favoriteRegionService.searchAddressByDongCode(dongCode);
+            if (addressList.isEmpty()) {
+                log.debug("Get Areas of Interest by Area Code failure: Empty");
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NO_CONTENT;
+            } else {
+                log.debug("Successfully importing areas of interest by area code");
+                resultMap.put("addressList", addressList);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.OK;
+            }
+        } catch (Exception e) {
+            log.debug("Get Areas of Interest by Area Code failure: {}", e.getMessage());
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }

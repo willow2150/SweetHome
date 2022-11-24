@@ -13,7 +13,7 @@
     </select>
 
     <select id="selectHouseinfoByCode" parameterType="long" resultType="Houseinfo">
-        SELECT lat, lng, buildYear, houseName, jibun, dongCode
+        SELECT houseName, lat, lng, buildYear, houseName, jibun, dongCode
         FROM houseinfo
         WHERE houseCode = #{houseCode}
     </select>
