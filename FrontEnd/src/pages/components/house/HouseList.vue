@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       aptlistmodals: {
-        classic: false,
+        classic: true,
         mini: false,
       },
     };

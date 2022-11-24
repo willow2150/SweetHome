@@ -5,7 +5,16 @@
     <!-- Classic Modal -->
     <modal :show.sync="houseInfoModal.classic" id="houseInfoModal">
       <h5 slot="header" class="title title-up">1</h5>
-      <div><span style="color: black">여기에 상세정보? 리스트?</span></div>
+      <div class="container">
+        <h2 style="color: black">{{ this.selectedApt.houseName }}</h2>
+        <h3 style="color: black">상세주소 : {{ this.selectedApt.address }}</h3>
+        <h3 style="color: black">
+          면적 : {{ this.selectedApt.address }} 제곱미터
+        </h3>
+        <h3 style="color: black">
+          가격 : {{ this.selectedApt.dealAmount }} 만원
+        </h3>
+      </div>
     </modal>
   </div>
 </template>
@@ -14,6 +23,9 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import { Modal } from "@/components";
 import img from "../../../../public/img/home7.png";
+import { apiInstance } from "../../../api/http.js";
+
+const api = apiInstance();
 
 const houseStore = "houseStore";
 
@@ -25,12 +37,13 @@ export default {
   data() {
     return {
       houseInfoModal: {
-        classic: true,
+        classic: false,
         mini: false,
       },
       map: null,
       markers: [],
-      selectedApt: null,
+      selectedApts: [],
+      selectedApt: {},
     };
   },
   mounted() {
@@ -126,21 +139,33 @@ export default {
           new kakao.maps.Marker({
             map: this.map,
             position: new kakao.maps.LatLng(apt.lat, apt.lng),
-            title: apt.houseCode,
+            title: apt.houseName,
             image: markerImage,
           })
       );
-      console.log(this.markers);
-      console.log(this.aptlist);
+      // console.log(this.markers);
+      // console.log(this.aptlist);
       // 미커별 이벤트추가
       this.markers.forEach((marker) => {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, "click", () => {
-          console.log(marker);
+          // console.log(marker.Gb);
           // 마커 위에 인포윈도우를 표시합니다
-          this.selectedApt = null;
+          this.chooseApt(marker.Gb);
           this.houseInfoModal.classic = true;
         });
+      });
+    },
+
+    chooseApt(aptCode) {
+      const params = { houseName: aptCode };
+      api.post(`/house/list`, JSON.stringify(params)).then((data) => {
+        this.selectedApt = null;
+        this.selectedApts = null;
+        this.selectedApts = data.data.houseList;
+        this.selectedApt = this.selectedApts[0];
+        console.log(this.selectedApt);
+        console.log(this.selectedApt.houseName);
       });
     },
   },
