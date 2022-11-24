@@ -5,7 +5,8 @@
     <!-- Classic Modal -->
     <modal :show.sync="houseInfoModal.classic" id="houseInfoModal">
       <h5 slot="header" class="title title-up">1</h5>
-      <img src="img/apt/1.PNG" width="350px" />
+      <!-- <img src="img/apt/1.PNG" width="350px" /> -->
+      <div id="roadview" style="width: 100%; height: 350px"></div>
       <p class="category text-info" style="color: black; font-size: 36px">
         {{ this.selectedApt.houseName }}
       </p>
@@ -97,7 +98,6 @@ export default {
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
-      this.displayMarker();
     } else {
       const script = document.createElement("script");
       /* global kakao */
@@ -121,15 +121,14 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.50125817332294, 127.03957072166146),
-        level: 3,
+        level: 5,
       };
 
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
-      const map = this.map;
 
-      window.kakao.maps.event.addListener(map, "dragend", () => {
+      window.kakao.maps.event.addListener(this.map, "dragend", () => {
         // 지도의 중심좌표를 얻어옵니다
         const latlng = this.map.getCenter();
 
@@ -193,14 +192,30 @@ export default {
           })
       );
 
+      var roadviewContainer = document.getElementById("roadview"); //로드뷰를 표시할 div
+      var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+      var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+      let position = new kakao.maps.LatLng(33.450701, 126.570667);
       // 미커별 이벤트추가
       this.markers.forEach((marker) => {
+        var index = 0;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, "click", () => {
           // 마커 위에 인포윈도우를 표시합니다
           this.chooseApt(marker.Gb);
           this.houseInfoModal.classic = true;
+          index = this.markers.indexOf(marker, 0);
         });
+
+        position = new kakao.maps.LatLng(
+          this.aptlist[index].lat,
+          this.aptlist[index].lng
+        );
+      });
+
+      // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+      roadviewClient.getNearestPanoId(position, 30, (panoId) => {
+        roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
       });
     },
 
@@ -211,8 +226,8 @@ export default {
         this.selectedApts = null;
         this.selectedApts = data.data.houseList;
         this.selectedApt = this.selectedApts[0];
-        console.log(this.selectedApt);
-        console.log(this.selectedApt.houseName);
+        // console.log(this.selectedApt);
+        // console.log(this.selectedApt.houseName);
       });
     },
   },
@@ -236,5 +251,9 @@ export default {
   width: 50rem;
   height: 47rem;
   position: absolute;
+}
+
+#houseInfoModal > .modal-dialog > .modal-content > .modal-body {
+  padding-top: 0;
 }
 </style>
