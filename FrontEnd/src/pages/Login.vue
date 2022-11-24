@@ -28,13 +28,6 @@
             </fg-input>
 
             <template slot="raw-content">
-              <div class="row">
-                <div class="col">
-                  <LoginNaverButton />
-                </div>
-                <div class="col">구글</div>
-                <div class="col">카카오</div>
-              </div>
               <div class="card-footer text-center">
                 <span
                   class="btn btn-info btn-round btn-lg btn-block"
