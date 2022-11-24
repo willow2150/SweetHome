@@ -61,6 +61,7 @@ public class BoardController {
         log.debug("Write article");
         Map<String, String> resultMap = new HashMap<>();
         HttpStatus status;
+        System.out.println(board);
         try {
             if (boardService.writeArticle(board)) {
                 log.debug("Article creation success");

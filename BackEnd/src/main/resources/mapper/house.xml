@@ -124,7 +124,7 @@
 
 
     <select id="selectHouseinfoListBySidoGugunCode" parameterType="string" resultType="Houseinfo">
-        SELECT houseName, houseCode, buildYear, jibun, lat, lng
+        SELECT houseName, dong, houseCode, buildYear, jibun, lat, lng
         FROM houseinfo
         Where sigunguCode = #{sidoGugunCode}
         LIMIT 200;

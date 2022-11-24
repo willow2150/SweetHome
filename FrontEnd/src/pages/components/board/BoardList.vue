@@ -32,6 +32,9 @@
 
 <script>
 import { getArticleList } from "@/api/board";
+import { mapState } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "BoardList",
@@ -45,6 +48,7 @@ export default {
         { key: "regTime", label: "작성일", tdClass: "tdClass" },
         { key: "hit", label: "조회수", tdClass: "tdClass" },
       ],
+      // isLogin: null
     };
   },
   created() {
@@ -64,7 +68,9 @@ export default {
       }
     );
   },
-  computed: {},
+  computed: {
+    ...mapState(userStore, ["userInfo"]),
+  },
   methods: {
     async changePro() {
       this.user.userId = this.userInfo.userId;
@@ -72,7 +78,11 @@ export default {
       this.$router.push("/profile");
     },
     moveWrite() {
-      this.$router.push({ name: "boardwrite" });
+      if (this.userInfo) {
+        this.$router.push({ name: "boardwrite" });
+      } else {
+        alert("로그인이 필요합니다.");
+      }
     },
     viewArticle(article) {
       this.$router.push({

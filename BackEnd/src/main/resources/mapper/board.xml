@@ -17,6 +17,7 @@
     <select id="selectArticleList" resultMap="Board">
         SELECT article_no, user_id, subject, content, hit, reg_time
         FROM board
+        ORDER BY article_no DESC;
     </select>
 
 
